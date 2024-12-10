@@ -28,17 +28,18 @@ class User:
 
         return cls
 
-    def user_to_json(self) -> str:
+    @staticmethod
+    def user_to_json(user) -> str:
         # TODO: move as function
         user_json = {
-            "id": self.id,
-            "username": self.username,
-            "firstName": self.firstName,
-            "lastName": self.lastName,
-            "email": self.email,
-            "password": self.password,
-            "phone": self.phone,
-            "userStatus": self.userStatus
+            "id": user.id,
+            "username": user.username,
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "email": user.email,
+            "password": user.password,
+            "phone": user.phone,
+            "userStatus": user.userStatus
         }
 
         return json.dumps(user_json)

@@ -11,7 +11,7 @@ class UserService:
     create_with_list_url = f"{user_url}createWithList"
 
     user = User.generate_user()
-    json_user = user.user_to_json(self=user)
+    json_user = user.user_to_json(user)
     headers = BaseAPI.headers
 
     def get_user(self, username):
