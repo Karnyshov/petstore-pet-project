@@ -11,7 +11,15 @@ class UserService:
     create_with_list_url = f"{user_url}createWithList"
 
     user = User.generate_user()
-    json_user = user.user_to_json(user)
+    invalid_user = User.generate_invalid_user()
+    # updated_user = User.generate_updated_user()
+    # updated_invalid_user = User.generate_updated_invalid_user(user)
+
+    user_json = User.user_to_json(user)
+    invalid_user_json = User.user_to_json(invalid_user)
+    # updated_user_json = User.user_to_json(updated_user)
+    # updated_invalid_user_json = User.user_to_json(updated_invalid_user)
+
     headers = BaseAPI.headers
 
     def get_user(self, username):
@@ -21,7 +29,7 @@ class UserService:
         return post(url=self.user_url, data=user, headers=self.headers)
 
     def update_user(self, username, user_updated):
-        return put(url=self.user_url + f"/{username}", data=user_updated, headers=self.headers)
+        return put(url=self.user_url + f"{username}", data=user_updated, headers=self.headers)
 
     def delete_user(self, username):
         return delete(url=self.user_url + f"{username}", headers=self.headers)

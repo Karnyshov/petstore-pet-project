@@ -28,7 +28,6 @@ class Pet:
             "name": "dog"
         }
 
-        # TODO: move as function
         pet_json = {
             "id": cls.pet_id,
             "name": cls.name,
@@ -69,7 +68,6 @@ class Pet:
         }
 
         return json.dumps(pet_json)
-
 
     @classmethod
     def generate_updated_pet_invalid_id(cls):
