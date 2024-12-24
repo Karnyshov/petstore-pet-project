@@ -15,19 +15,35 @@ class User:
     phone: Any
     userStatus: Any
 
-    @classmethod
-    def generate_user(cls):
-        cls.id = randint(0, 10)
-        cls.username = "Bob User"
-        cls.firstName = "Bob"
-        cls.lastName = "Balan"
-        cls.email = "test@email.com"
-        cls.password = "p@sw0rd"
-        cls.phone = "0991234567"
-        cls.userStatus = randint(0, 2)
+    # TODO: move to fixture?
+    @staticmethod
+    def generate_user():
+        user = User(
+            randint(0, 10),
+            "Bob User",
+            "Bob",
+            "Balan",
+            "test@email.com",
+            "p@sw0rd",
+            "0991234567",
+            randint(0, 2)
+        )
 
-        return cls
+        return user
 
+        # cls.id = randint(0, 10)
+        # cls.username = "Bob User"
+        # cls.firstName = "Bob"
+        # cls.lastName = "Balan"
+        # cls.email = "test@email.com"
+        # cls.password = "p@sw0rd"
+        # cls.phone = "0991234567"
+        # cls.userStatus = randint(0, 2)
+        #
+        # return cls
+
+
+    # TODO: move to fixture
     @classmethod
     def generate_invalid_user(cls):
         cls.id = randint(0, 10)
@@ -41,23 +57,26 @@ class User:
 
         return cls
 
-    # overrides result of generate_invalid_user() and generate_user() and generate_updated_invalid_user()
-    @classmethod
-    def generate_updated_user(cls, user):
-        cls.id = randint(0, 10)
-        cls.username = user.username
-        cls.firstName = "Bob Updated"
-        cls.lastName = "Balan Updated"
-        cls.email = "test_updated@email.com"
-        cls.password = "p@sw0rd_updated"
-        cls.phone = "123456789"
-        cls.userStatus = randint(0, 2)
 
-        return cls
-
-    # overrides result of generate_invalid_user() and generate_user() and generate_updated_user()
+    # TODO: move to fixture
     @staticmethod
-    def generate_updated_invalid_user(user):
+    def update_user(user):
+        user.id = randint(0, 10)
+        user.username = user.username
+        user.firstName = "Bob Updated"
+        user.lastName = "Balan Updated"
+        user.email = "test_updated@email.com"
+        user.password = "p@sw0rd_updated"
+        user.phone = "123456789"
+        user.userStatus = randint(0, 2)
+
+        return user
+
+
+    # TODO: move to fixture
+    # overrides valid user
+    @staticmethod
+    def invalid_update_user(user):
         user.id = randint(0, 10)
         user.username = user.username
         user.firstName = "Bob Updated"
@@ -68,6 +87,7 @@ class User:
         user.userStatus = "qwe"
 
         return user
+
 
     @staticmethod
     def user_to_json(user) -> str:
