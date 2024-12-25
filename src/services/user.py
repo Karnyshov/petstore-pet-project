@@ -12,14 +12,15 @@ class UserService:
 
     user = User.generate_user()
     invalid_user = User.generate_invalid_user()
-    #user_to_update = User.generate_user
-    #updated_user = User.update_user(user_to_update)
-    #updated_invalid_user = User.generate_user
+    user_to_valid_update = User.generate_user()
+    user_to_invalid_update = User.generate_user()
+    updated_user = User.update_user(user_to_valid_update)
+    updated_invalid_user = User.invalid_update_user(user_to_invalid_update)
 
     user_json = User.user_to_json(user)
     invalid_user_json = User.user_to_json(invalid_user)
-    #updated_user_json = User.user_to_json(updated_user)
-    #updated_invalid_user_json = User.user_to_json(updated_invalid_user)
+    updated_user_json = User.user_to_json(updated_user)
+    updated_invalid_user_json = User.user_to_json(updated_invalid_user)
 
     headers = BaseAPI.headers
 

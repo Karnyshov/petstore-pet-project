@@ -15,13 +15,13 @@ class User:
     phone: Any
     userStatus: Any
 
-    # TODO: move to fixture?
+    # TODO: move to fixture
     @staticmethod
     def generate_user():
         user = User(
             randint(0, 10),
             "Bob User",
-            "Bob",
+            "Bob Valid",
             "Balan",
             "test@email.com",
             "p@sw0rd",
@@ -31,31 +31,23 @@ class User:
 
         return user
 
-        # cls.id = randint(0, 10)
-        # cls.username = "Bob User"
-        # cls.firstName = "Bob"
-        # cls.lastName = "Balan"
-        # cls.email = "test@email.com"
-        # cls.password = "p@sw0rd"
-        # cls.phone = "0991234567"
-        # cls.userStatus = randint(0, 2)
-        #
-        # return cls
-
 
     # TODO: move to fixture
-    @classmethod
-    def generate_invalid_user(cls):
-        cls.id = randint(0, 10)
-        cls.username = "Bob User"
-        cls.firstName = "Bob"
-        cls.lastName = "Balan"
-        cls.email = "test@email.com"
-        cls.password = "p@sw0rd"
-        cls.phone = []
-        cls.userStatus = randint(0, 2)
+    @staticmethod
+    def generate_invalid_user():
+        user = User(
+            randint(0, 10),
+            "Bob User",
+            "Bob Invalid",
+            "Balan",
+            "test@email.com",
+            "p@sw0rd",
+            [],
+            randint(0, 2)
 
-        return cls
+        )
+
+        return user
 
 
     # TODO: move to fixture
@@ -79,7 +71,7 @@ class User:
     def invalid_update_user(user):
         user.id = randint(0, 10)
         user.username = user.username
-        user.firstName = "Bob Updated"
+        user.firstName = "Bob Invalid Updated"
         user.lastName = "Balan Updated"
         user.email = "test_updated@email.com"
         user.password = "p@sw0rd_updated"
