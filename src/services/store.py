@@ -7,6 +7,7 @@ class StoreService:
     store_url = f"{BaseAPI.base_url}store/order/"
     inventory_url = f"{BaseAPI.base_url}store/inventory/"
     order = Order.generate_order()
+    invalid_order = Order.generate_invalid_order()
     headers = BaseAPI.headers
 
     def get_inventory(self):
@@ -17,6 +18,9 @@ class StoreService:
 
     def create_order(self):
         return post(url=self.store_url, data=self.order, headers=self.headers)
+
+    def create_invalid_order(self):
+        return post(url=self.store_url, data=self.invalid_order, headers=self.headers)
 
     def delete_order(self, order_id):
         return delete(url=self.store_url + f"{order_id}", headers=self.headers)
