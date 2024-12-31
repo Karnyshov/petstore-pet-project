@@ -8,6 +8,10 @@ class StoreService:
     inventory_url = f"{BaseAPI.base_url}store/inventory/"
     order = Order.generate_order()
     invalid_order = Order.generate_invalid_order()
+
+    order_json = Order.to_json(order)
+    invalid_order_json = Order.to_json(invalid_order)
+
     headers = BaseAPI.headers
 
     def get_inventory(self):
@@ -16,11 +20,11 @@ class StoreService:
     def get_order(self, order_id):
         return get(url=self.store_url + f"{order_id}", headers=self.headers)
 
-    def create_order(self):
-        return post(url=self.store_url, data=self.order, headers=self.headers)
+    def create_order(self, order):
+        return post(url=self.store_url, data=order, headers=self.headers)
 
-    def create_invalid_order(self):
-        return post(url=self.store_url, data=self.invalid_order, headers=self.headers)
+    def create_invalid_order(self, invalid_order):
+        return post(url=self.store_url, data=invalid_order, headers=self.headers)
 
     def delete_order(self, order_id):
         return delete(url=self.store_url + f"{order_id}", headers=self.headers)
