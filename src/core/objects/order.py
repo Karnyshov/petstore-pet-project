@@ -13,40 +13,42 @@ class Order:
     status: str
     complete: bool
 
-    @classmethod
-    def generate_order(cls):
-        cls.order_id = randint(0, 10)
-        cls.pet_id = randint(0, 10)
-        cls.quantity = randint(0, 10)
-        cls.shipDate = "2023-06-26T15:38:10.849Z"
-        cls.status = "complete"
-        cls.complete = bool(randint(0, 1))
+    @staticmethod
+    def generate_order():
+        order = Order(
+            randint(0, 10),
+            randint(0, 10),
+            randint(0, 10),
+            "2023-06-26T15:38:10.849Z",
+            "complete",
+            bool(randint(0, 1))
+        )
 
-# TODO: move as function
-        order_json = {"id": cls.order_id,
-                      "petId": cls.pet_id,
-                      "quantity": cls.quantity,
-                      "shipDate": cls.shipDate,
-                      "status": cls.status,
-                      "complete": cls.complete}
+        return order
 
-        return json.dumps(order_json)
 
-    @classmethod
-    def generate_invalid_order(cls):
-        cls.order_id = bool(randint(0, 1))
-        cls.pet_id = randint(0, 10)
-        cls.quantity = randint(0, 10)
-        cls.shipDate = "2023-06-26T15:38:10.849Z"
-        cls.status = "complete"
-        cls.complete = bool(randint(0, 1))
+    @staticmethod
+    def generate_invalid_order():
+        order = Order(
+            bool(randint(0, 1)),
+            randint(0, 10),
+            randint(0, 10),
+            "2023-06-26T15:38:10.849Z",
+            "complete",
+            bool(randint(0, 1))
 
-# TODO: move as function
-        order_json = {"id": cls.order_id,
-                      "petId": cls.pet_id,
-                      "quantity": cls.quantity,
-                      "shipDate": cls.shipDate,
-                      "status": cls.status,
-                      "complete": cls.complete}
+        )
+
+        return order
+
+
+    @staticmethod
+    def to_json(order) -> str:
+        order_json = {"id": order.order_id,
+                      "petId": order.pet_id,
+                      "quantity": order.quantity,
+                      "shipDate": order.shipDate,
+                      "status": order.status,
+                      "complete": order.complete}
 
         return json.dumps(order_json)

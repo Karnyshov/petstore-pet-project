@@ -17,10 +17,10 @@ class UserService:
     updated_user = User.update_user(user_to_valid_update)
     updated_invalid_user = User.invalid_update_user(user_to_invalid_update)
 
-    user_json = User.user_to_json(user)
-    invalid_user_json = User.user_to_json(invalid_user)
-    updated_user_json = User.user_to_json(updated_user)
-    updated_invalid_user_json = User.user_to_json(updated_invalid_user)
+    user_json = User.to_json(user)
+    invalid_user_json = User.to_json(invalid_user)
+    updated_user_json = User.to_json(updated_user)
+    updated_invalid_user_json = User.to_json(updated_invalid_user)
 
     headers = BaseAPI.headers
 

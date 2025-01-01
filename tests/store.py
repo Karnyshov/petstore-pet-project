@@ -8,20 +8,20 @@ def test_get_inventory(store_service):
 
 
 def test_create_order(store_service):
-    response = store_service.create_order()
+    response = store_service.create_order(store_service.order_json)
     assert 200 == response.status_code
 
 
 # Service return 500 instead of 400
 @pytest.mark.xfail
 def test_create_invalid_order(store_service):
-    response = store_service.create_invalid_order()
+    response = store_service.create_invalid_order(store_service.invalid_order_json)
     assert 400 == response.status_code
 
 
 # TODO: reduce number of lines
 def test_get_order_by_id(store_service):
-    created_order = store_service.create_order()
+    created_order = store_service.create_order(store_service.order_json)
     parsed_created_order = created_order.json()
     created_order_id = parsed_created_order.get("id")
     response = store_service.get_order(created_order_id)
@@ -45,7 +45,7 @@ def test_get_absent_order(store_service):
 
 # TODO: reduce number of lines
 def test_delete_order(store_service):
-    created_order = store_service.create_order()
+    created_order = store_service.create_order(store_service.order_json)
     parsed_created_order = created_order.json()
     created_order_id = parsed_created_order.get("id")
     response = store_service.delete_order(created_order_id)
@@ -54,7 +54,7 @@ def test_delete_order(store_service):
 
 # TODO: reduce number of lines
 def test_delete_deleted_order(store_service):
-    created_order = store_service.create_order()
+    created_order = store_service.create_order(store_service.order_json)
     parsed_created_order = created_order.json()
     created_order_id = parsed_created_order.get("id")
     store_service.delete_order(created_order_id)
@@ -64,7 +64,7 @@ def test_delete_deleted_order(store_service):
 
 # TODO: reduce number of lines
 def test_get_deleted_order(store_service):
-    created_order = store_service.create_order()
+    created_order = store_service.create_order(store_service.order_json)
     parsed_created_order = created_order.json()
     created_order_id = parsed_created_order.get("id")
     store_service.delete_order(created_order_id)

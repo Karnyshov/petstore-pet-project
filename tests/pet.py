@@ -1,8 +1,10 @@
 import pytest
 
+from src.services.pet import PetService
+
 
 def test_create_pet(pet_service):
-    response = pet_service.create_pet()
+    response = pet_service.create_pet(PetService.pet_json)
     assert 200 == response.status_code
 
 # TODO: Add test for other valid options
@@ -19,7 +21,7 @@ def test_find_by_invalid_status(pet_service):
 
 # TODO: reduce number of lines
 def test_get_pet_by_id(pet_service):
-    created_pet = pet_service.create_pet()
+    created_pet = pet_service.create_pet(PetService.pet_json)
     parsed_created_pet = created_pet.json()
     created_pet_id = parsed_created_pet.get("id")
     response = pet_service.get_pet(created_pet_id)
@@ -29,22 +31,22 @@ def test_get_pet_by_id(pet_service):
 # TODO: optimize usage of created and updated pet
 # TODO: add more assertions
 def test_update_pet(pet_service):
-    pet_service.create_pet(pet_service.pet)
-    response = pet_service.update_pet(pet_service.pet_updated)
+    pet_service.create_pet(PetService.pet_json)
+    response = pet_service.update_pet(PetService.pet_updated_json)
     assert 200 == response.status_code
 
 # TODO: optimize usage of created and updated pet
 @pytest.mark.xfail
 # returns 500 instead of 400
 def test_update_pet_invalid_id(pet_service):
-    response = pet_service.update_pet(pet_service.pet_updated_invalid_id)
+    response = pet_service.update_pet(PetService.pet_invalid_id_json)
     assert 400 == response.status_code
 
 # TODO: optimize usage of created and updated pet
 @pytest.mark.xfail
 # returns 500 instead of 400
 def test_update_pet_invalid_body(pet_service):
-    response = pet_service.update_pet(pet_service.pet_updated_invalid_body)
+    response = pet_service.update_pet(PetService.pet_invalid_body_json)
     assert 400 == response.status_code
 
 # TODO: add more invalid cases
@@ -63,7 +65,7 @@ def test_get_absent_order(store_service):
 
 # TODO: reduce number of lines
 def test_delete_order(pet_service):
-    created_pet = pet_service.create_pet()
+    created_pet = pet_service.create_pet(PetService.pet_json)
     parsed_created_pet = created_pet.json()
     created_pet_id = parsed_created_pet.get("id")
     response = pet_service.delete_pet(created_pet_id)
@@ -72,7 +74,7 @@ def test_delete_order(pet_service):
 
 # TODO: reduce number of lines
 def test_delete_deleted_order(pet_service):
-    created_pet = pet_service.create_pet()
+    created_pet = pet_service.create_pet(PetService.pet_json)
     parsed_created_pet = created_pet.json()
     created_pet_id = parsed_created_pet.get("id")
     pet_service.delete_pet(created_pet_id)
@@ -82,7 +84,7 @@ def test_delete_deleted_order(pet_service):
 
 # TODO: reduce number of lines
 def test_get_deleted_order(pet_service):
-    created_pet = pet_service.create_pet()
+    created_pet = pet_service.create_pet(PetService.pet_json)
     parsed_created_pet = created_pet.json()
     created_pet_id = parsed_created_pet.get("id")
     pet_service.delete_pet(created_pet_id)

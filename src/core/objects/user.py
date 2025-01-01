@@ -82,7 +82,7 @@ class User:
 
 
     @staticmethod
-    def user_to_json(user) -> str:
+    def to_json(user) -> str:
         user_json = {
             "id": user.id,
             "username": user.username,
