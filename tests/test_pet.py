@@ -7,7 +7,7 @@ class TestPet:
         response = pet_service.create_pet(PetService.pet_json)
         assert 200 == response.status_code
 
-    # TODO: Add test for other valid options
+    # TODO: Add tests for other valid options
     def test_find_by_status_available(self, pet_service):
         response = pet_service.find_by_status("available")
         assert 200 == response.status_code
