@@ -4,16 +4,16 @@ from src.services.pet import PetService
 from src.services.user import UserService
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def store_service():
     yield StoreService()
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def pet_service():
     yield PetService()
 
     
-@pytest.fixture
+@pytest.fixture(scope="function")
 def user_service():
     yield UserService()
