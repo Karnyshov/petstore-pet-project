@@ -1,7 +1,7 @@
 import pytest
+from conftest import user_service
 
 class TestUser:
-
     def test_create_user(self, user_service):
         response = user_service.create_user(user_service.user_json)
         assert 200 == response.status_code

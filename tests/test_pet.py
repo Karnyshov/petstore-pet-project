@@ -1,10 +1,9 @@
 import pytest
-
-from src.services.pet import PetService
+from conftest import pet_service
 
 class TestPet:
     def test_create_pet(self, pet_service):
-        response = pet_service.create_pet(PetService.pet_json)
+        response = pet_service.create_pet(pet_service.pet_json)
         assert 200 == response.status_code
 
     # TODO: Add tests for other valid options
@@ -21,7 +20,7 @@ class TestPet:
 
     # TODO: reduce number of lines
     def test_get_pet_by_id(self, pet_service):
-        created_pet = pet_service.create_pet(PetService.pet_json)
+        created_pet = pet_service.create_pet(pet_service.pet_json)
         parsed_created_pet = created_pet.json()
         created_pet_id = parsed_created_pet.get("id")
         response = pet_service.get_pet(created_pet_id)
@@ -31,22 +30,22 @@ class TestPet:
     # TODO: optimize usage of created and updated pet
     # TODO: add more assertions
     def test_update_pet(self, pet_service):
-        pet_service.create_pet(PetService.pet_json)
-        response = pet_service.update_pet(PetService.pet_updated_json)
+        pet_service.create_pet(pet_service.pet_json)
+        response = pet_service.update_pet(pet_service.pet_updated_json)
         assert 200 == response.status_code
 
     # TODO: optimize usage of created and updated pet
     @pytest.mark.xfail
     # returns 500 instead of 400
     def test_update_pet_invalid_id(self, pet_service):
-        response = pet_service.update_pet(PetService.pet_invalid_id_json)
+        response = pet_service.update_pet(pet_service.pet_invalid_id_json)
         assert 400 == response.status_code
 
     # TODO: optimize usage of created and updated pet
     @pytest.mark.xfail
     # returns 500 instead of 400
     def test_update_pet_invalid_body(self, pet_service):
-        response = pet_service.update_pet(PetService.pet_invalid_body_json)
+        response = pet_service.update_pet(pet_service.pet_invalid_body_json)
         assert 400 == response.status_code
 
     # TODO: add more invalid cases
@@ -65,7 +64,7 @@ class TestPet:
 
     # TODO: reduce number of lines
     def test_delete_order(self, pet_service):
-        created_pet = pet_service.create_pet(PetService.pet_json)
+        created_pet = pet_service.create_pet(pet_service.pet_json)
         parsed_created_pet = created_pet.json()
         created_pet_id = parsed_created_pet.get("id")
         response = pet_service.delete_pet(created_pet_id)
@@ -74,7 +73,7 @@ class TestPet:
 
     # TODO: reduce number of lines
     def test_delete_deleted_order(self, pet_service):
-        created_pet = pet_service.create_pet(PetService.pet_json)
+        created_pet = pet_service.create_pet(pet_service.pet_json)
         parsed_created_pet = created_pet.json()
         created_pet_id = parsed_created_pet.get("id")
         pet_service.delete_pet(created_pet_id)
@@ -84,7 +83,7 @@ class TestPet:
 
     # TODO: reduce number of lines
     def test_get_deleted_order(self, pet_service):
-        created_pet = pet_service.create_pet(PetService.pet_json)
+        created_pet = pet_service.create_pet(pet_service.pet_json)
         parsed_created_pet = created_pet.json()
         created_pet_id = parsed_created_pet.get("id")
         pet_service.delete_pet(created_pet_id)

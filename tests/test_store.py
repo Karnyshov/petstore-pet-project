@@ -1,4 +1,5 @@
 import pytest
+from conftest import store_service
 
 class TestStore:
     def test_get_inventory(self, store_service):

@@ -13,7 +13,7 @@ def store_service():
 def pet_service():
     yield PetService()
 
-    
+
 @pytest.fixture(scope="function")
 def user_service():
     yield UserService()
