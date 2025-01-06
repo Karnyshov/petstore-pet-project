@@ -41,14 +41,12 @@ class Order:
 
         return order
 
-
-    @staticmethod
-    def to_json(order) -> str:
-        order_json = {"id": order.order_id,
-                      "petId": order.pet_id,
-                      "quantity": order.quantity,
-                      "shipDate": order.shipDate,
-                      "status": order.status,
-                      "complete": order.complete}
+    def to_json(self) -> str:
+        order_json = {"id": self.order_id,
+                      "petId": self.pet_id,
+                      "quantity": self.quantity,
+                      "shipDate": self.shipDate,
+                      "status": self.status,
+                      "complete": self.complete}
 
         return json.dumps(order_json)

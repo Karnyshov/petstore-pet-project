@@ -1,5 +1,5 @@
 import pytest
-from conftest import store_service
+from conftest import store_service, valid_order, parsed_order, invalid_order, create_valid_order
 
 class TestStore:
     def test_get_inventory(self, store_service):
@@ -7,24 +7,21 @@ class TestStore:
         assert 200 == response.status_code
         assert {} != response.json()
 
-    def test_create_order(self, store_service):
-        response = store_service.create_order(store_service.order_json)
+    def test_create_order(self, store_service, valid_order):
+        response = store_service.create_order(valid_order.to_json())
         assert 200 == response.status_code
 
     # Service return 500 instead of 400
     @pytest.mark.xfail
-    def test_create_invalid_order(self, store_service):
-        response = store_service.create_invalid_order(store_service.invalid_order_json)
+    def test_create_invalid_order(self, store_service, invalid_order):
+        response = store_service.create_order(invalid_order.to_json())
         assert 400 == response.status_code
 
-    # TODO: reduce number of lines
-    def test_get_order_by_id(self, store_service):
-        created_order = store_service.create_order(store_service.order_json)
-        parsed_created_order = created_order.json()
-        created_order_id = parsed_created_order.get("id")
-        response = store_service.get_order(created_order_id)
+    def test_get_order_by_id(self, store_service, parsed_order):
+        parsed_order_id = parsed_order.get("id")
+        response = store_service.get_order(parsed_order_id)
         assert 200 == response.status_code
-        assert created_order_id == response.json().get("id")
+        assert parsed_order_id == response.json().get("id")
 
     # TODO: add more invalid cases
     # return 404 instead of 400
@@ -38,28 +35,19 @@ class TestStore:
         response = store_service.get_order(0)
         assert 404 == response.status_code
 
-    # TODO: reduce number of lines
-    def test_delete_order(self, store_service):
-        created_order = store_service.create_order(store_service.order_json)
-        parsed_created_order = created_order.json()
-        created_order_id = parsed_created_order.get("id")
+    def test_delete_order(self, store_service, parsed_order):
+        created_order_id = parsed_order.get("id")
         response = store_service.delete_order(created_order_id)
         assert 200 == response.status_code
 
-    # TODO: reduce number of lines
-    def test_delete_deleted_order(self, store_service):
-        created_order = store_service.create_order(store_service.order_json)
-        parsed_created_order = created_order.json()
-        created_order_id = parsed_created_order.get("id")
+    def test_delete_deleted_order(self, store_service, parsed_order):
+        created_order_id = parsed_order.get("id")
         store_service.delete_order(created_order_id)
         response = store_service.delete_order(created_order_id)
         assert 404 == response.status_code
 
-    # TODO: reduce number of lines
-    def test_get_deleted_order(self, store_service):
-        created_order = store_service.create_order(store_service.order_json)
-        parsed_created_order = created_order.json()
-        created_order_id = parsed_created_order.get("id")
+    def test_get_deleted_order(self, store_service, parsed_order):
+        created_order_id = parsed_order.get("id")
         store_service.delete_order(created_order_id)
         response = store_service.get_order(created_order_id)
         assert 404 == response.status_code

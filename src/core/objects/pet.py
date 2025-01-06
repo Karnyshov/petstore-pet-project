@@ -85,16 +85,14 @@ class Pet:
 
         return created_pet
 
-
-    @staticmethod
-    def to_json(pet) -> str:
+    def to_json(self) -> str:
         pet_json = {
-            "id": pet.pet_id,
-            "name": pet.name,
-            "status": pet.status,
-            "photoUrls": pet.photoUrls,
-            "tags": pet.tags,
-            "category": pet.category
+            "id": self.pet_id,
+            "name": self.name,
+            "status": self.status,
+            "photoUrls": self.photoUrls,
+            "tags": self.tags,
+            "category": self.category
         }
 
         return json.dumps(pet_json)
