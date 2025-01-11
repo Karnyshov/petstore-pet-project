@@ -10,18 +10,6 @@ class UserService:
     create_with_array_url = f"{user_url}createWithArray"
     create_with_list_url = f"{user_url}createWithList"
 
-    user = User.generate_user()
-    invalid_user = User.generate_invalid_user()
-    user_to_valid_update = User.generate_user()
-    user_to_invalid_update = User.generate_user()
-    updated_user = User.update_user(user_to_valid_update)
-    updated_invalid_user = User.invalid_update_user(user_to_invalid_update)
-
-    user_json = User.to_json(user)
-    invalid_user_json = User.to_json(invalid_user)
-    updated_user_json = User.to_json(updated_user)
-    updated_invalid_user_json = User.to_json(updated_invalid_user)
-
     headers = BaseAPI.headers
 
     def get_user(self, username):
@@ -47,3 +35,11 @@ class UserService:
 
     def create_user_with_array(self, user_array):
         return post(url=self.user_url, data=user_array, headers=self.headers)
+
+    @staticmethod
+    def updating_user(created_user):
+        return User.update_user(created_user)
+
+    @staticmethod
+    def invalid_update_user(created_user):
+        return User.invalid_update_user(created_user)

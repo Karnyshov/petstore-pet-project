@@ -1,11 +1,10 @@
-import copy
-
 import pytest
 from src.services.store import StoreService
 from src.services.pet import PetService
 from src.services.user import UserService
 from src.core.objects.order import Order
 from src.core.objects.pet import Pet
+from src.core.objects.user import User
 
 
 @pytest.fixture(scope="function")
@@ -55,20 +54,35 @@ def parsed_pet(create_valid_pet):
     parsed_pet = create_valid_pet.json()
     yield parsed_pet
 
-@pytest.fixture(scope="function")
-def updated_pet(pet_service, valid_pet):
-    original_pet = copy.deepcopy(valid_pet)
-    pet_updated = Pet.update_pet(valid_pet)
-    yield pet_updated
+# @pytest.fixture(scope="function")
+# def updated_pet(pet_service, valid_pet):
+#     original_pet = copy.deepcopy(valid_pet)
+#     pet_updated = Pet.update_pet(valid_pet)
+#     yield pet_updated
+
+# @pytest.fixture(scope="function")
+# def updated_pet_invalid_id(pet_service, valid_pet):
+#     # original_pet = copy.deepcopy(valid_pet)
+#     pet_updated_invalid_id = Pet.update_pet_invalid_id(valid_pet)
+#     yield pet_updated_invalid_id
+
+# @pytest.fixture(scope="function")
+# def updated_pet_invalid_body(pet_service, valid_pet):
+#     # original_pet = copy.deepcopy(valid_pet)
+#     pet_updated_invalid_body = Pet.update_pet_invalid_body(valid_pet)
+#     yield pet_updated_invalid_body
 
 @pytest.fixture(scope="function")
-def updated_pet_invalid_id(pet_service, valid_pet):
-    original_pet = copy.deepcopy(valid_pet)
-    pet_updated_invalid_id = Pet.update_pet_invalid_id(valid_pet)
-    yield pet_updated_invalid_id
+def valid_user():
+    user = User.generate_user()
+    yield user
 
 @pytest.fixture(scope="function")
-def updated_pet_invalid_body(pet_service, valid_pet):
-    original_pet = copy.deepcopy(valid_pet)
-    pet_updated_invalid_body = Pet.update_pet_invalid_body(valid_pet)
-    yield pet_updated_invalid_body
+def invalid_user():
+    invalid_user = User.generate_invalid_user()
+    yield invalid_user
+
+@pytest.fixture(scope="function")
+def create_valid_user(user_service, valid_user):
+    created_user = user_service.create_user(valid_user.to_json())
+    yield created_user

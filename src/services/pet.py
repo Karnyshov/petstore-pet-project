@@ -1,4 +1,5 @@
 from src.core.baseAPI import BaseAPI
+from src.core.objects.pet import Pet
 from requests.api import get, post, put, delete
 
 
@@ -22,3 +23,15 @@ class PetService:
 
     def delete_pet(self, pet_id):
         return delete(url=self.pet_url + f"{pet_id}", headers=self.headers)
+
+    @staticmethod
+    def update_valid_pet(pet_to_update):
+        return Pet.update_pet(pet_to_update)
+
+    @staticmethod
+    def update_pet_invalid_id():
+        return Pet.update_pet_invalid_id()
+
+    @staticmethod
+    def update_pet_invalid_body(pet_to_update):
+        return Pet.update_pet_invalid_body(pet_to_update)

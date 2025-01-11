@@ -1,5 +1,5 @@
 import pytest
-from conftest import pet_service, valid_pet, create_valid_pet, parsed_pet, updated_pet, updated_pet_invalid_id, updated_pet_invalid_body
+from conftest import pet_service, valid_pet, create_valid_pet, parsed_pet
 
 class TestPet:
     def test_create_pet(self, pet_service, valid_pet):
@@ -25,22 +25,24 @@ class TestPet:
         assert created_pet_id == response.json().get("id")
 
     # TODO: add more assertions
-    def test_update_pet(self, pet_service, create_valid_pet, updated_pet):
+    def test_update_pet(self, pet_service, create_valid_pet, valid_pet):
+        updated_pet = pet_service.update_valid_pet(valid_pet)
         response = pet_service.update_pet(updated_pet.to_json())
         assert 200 == response.status_code
 
     # TODO: optimize usage of created and updated pet
     @pytest.mark.xfail
     # returns 500 instead of 400
-    def test_update_pet_invalid_id(self, pet_service, updated_pet_invalid_id):
-        response = pet_service.update_pet(updated_pet_invalid_id.to_json())
+    def test_update_pet_invalid_id(self, pet_service, create_valid_pet):
+        response = pet_service.update_pet(pet_service.update_pet_invalid_id().to_json())
         assert 400 == response.status_code
 
     # TODO: optimize usage of created and updated pet
     @pytest.mark.xfail
     # returns 500 instead of 400
-    def test_update_pet_invalid_body(self, pet_service, updated_pet_invalid_body):
-        response = pet_service.update_pet(updated_pet_invalid_body.to_json())
+    def test_update_pet_invalid_body(self, pet_service, create_valid_pet, valid_pet):
+        updated_pet = pet_service.update_pet_invalid_body(valid_pet)
+        response = pet_service.update_pet(updated_pet.to_json())
         assert 400 == response.status_code
 
     def test_delete_pet(self, pet_service, parsed_pet):
