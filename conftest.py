@@ -54,24 +54,6 @@ def parsed_pet(create_valid_pet):
     parsed_pet = create_valid_pet.json()
     yield parsed_pet
 
-# @pytest.fixture(scope="function")
-# def updated_pet(pet_service, valid_pet):
-#     original_pet = copy.deepcopy(valid_pet)
-#     pet_updated = Pet.update_pet(valid_pet)
-#     yield pet_updated
-
-# @pytest.fixture(scope="function")
-# def updated_pet_invalid_id(pet_service, valid_pet):
-#     # original_pet = copy.deepcopy(valid_pet)
-#     pet_updated_invalid_id = Pet.update_pet_invalid_id(valid_pet)
-#     yield pet_updated_invalid_id
-
-# @pytest.fixture(scope="function")
-# def updated_pet_invalid_body(pet_service, valid_pet):
-#     # original_pet = copy.deepcopy(valid_pet)
-#     pet_updated_invalid_body = Pet.update_pet_invalid_body(valid_pet)
-#     yield pet_updated_invalid_body
-
 @pytest.fixture(scope="function")
 def valid_user():
     user = User.generate_user()
