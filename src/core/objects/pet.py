@@ -89,6 +89,14 @@ class Pet:
 
         return pet_invalid_body
 
+    @staticmethod
+    def generate_pet_update_form_data():
+        form_data = {
+            "name": "Bobr",
+            "status": "sold"
+        }
+
+        return form_data
 
     def to_json(self) -> str:
         pet_json = {

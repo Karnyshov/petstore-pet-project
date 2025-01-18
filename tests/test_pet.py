@@ -30,14 +30,17 @@ class TestPet:
         response = pet_service.update_pet(updated_pet.to_json())
         assert 200 == response.status_code
 
-    # TODO: optimize usage of created and updated pet
+    # TODO: add more test data
+    def test_update_pet_form(self, pet_service, create_valid_pet, valid_pet):
+        response = pet_service.update_pet_form(valid_pet.pet_id, pet_service.form_data())
+        assert 200 == response.status_code
+
     @pytest.mark.xfail
     # returns 500 instead of 400
     def test_update_pet_invalid_id(self, pet_service, create_valid_pet):
         response = pet_service.update_pet(pet_service.update_pet_invalid_id().to_json())
         assert 400 == response.status_code
 
-    # TODO: optimize usage of created and updated pet
     @pytest.mark.xfail
     # returns 500 instead of 400
     def test_update_pet_invalid_body(self, pet_service, create_valid_pet, valid_pet):
@@ -50,13 +53,11 @@ class TestPet:
         response = pet_service.delete_pet(created_pet_id)
         assert 200 == response.status_code
 
-
     def test_delete_deleted_pet(self, pet_service, parsed_pet):
         created_pet_id = parsed_pet.get("id")
         pet_service.delete_pet(created_pet_id)
         response = pet_service.delete_pet(created_pet_id)
         assert 404 == response.status_code
-
 
     def test_get_deleted_pet(self, pet_service, parsed_pet):
         created_pet_id = parsed_pet.get("id")
