@@ -21,8 +21,15 @@ class PetService:
     def update_pet(self, pet_updated):
         return put(url=self.pet_url, data=pet_updated, headers=self.headers)
 
+    def update_pet_form(self, pet_id, update_data):
+        return post(url=self.pet_url + f"{pet_id}", data=update_data)
+
     def delete_pet(self, pet_id):
         return delete(url=self.pet_url + f"{pet_id}", headers=self.headers)
+
+    @staticmethod
+    def form_data():
+        return Pet.generate_pet_update_form_data()
 
     @staticmethod
     def update_valid_pet(pet_to_update):
