@@ -15,7 +15,6 @@ class User:
     phone: Any
     userStatus: Any
 
-    # TODO: move to fixture
     @staticmethod
     def generate_user():
         user = User(
@@ -32,7 +31,6 @@ class User:
         return user
 
 
-    # TODO: move to fixture
     @staticmethod
     def generate_invalid_user():
         user = User(
@@ -49,49 +47,47 @@ class User:
 
         return user
 
-
-    # TODO: move to fixture
     @staticmethod
-    def update_user(user):
-        user.id = randint(0, 10)
-        user.username = user.username
-        user.firstName = "Bob Updated"
-        user.lastName = "Balan Updated"
-        user.email = "test_updated@email.com"
-        user.password = "p@sw0rd_updated"
-        user.phone = "123456789"
-        user.userStatus = randint(0, 2)
+    def update_user(created_user):
+        updated_user = User(
+            randint(0, 10),
+            created_user.username,
+            "Bob Updated",
+            "Balan Updated",
+            "test_updated@email.com",
+            "p@sw0rd_updated",
+            "123456789",
+            randint(0, 2)
+        )
 
-        return user
-
-
-    # TODO: move to fixture
-    # overrides valid user
-    @staticmethod
-    def invalid_update_user(user):
-        user.id = randint(0, 10)
-        user.username = user.username
-        user.firstName = "Bob Invalid Updated"
-        user.lastName = "Balan Updated"
-        user.email = "test_updated@email.com"
-        user.password = "p@sw0rd_updated"
-        user.phone = "123456789"
-        user.userStatus = "qwe"
-
-        return user
-
+        return updated_user
 
     @staticmethod
-    def to_json(user) -> str:
+    def invalid_update_user(created_user):
+        invalid_updated_user = User(
+            randint(0, 10),
+            created_user.username,
+            "Bob Invalid Updated",
+            "Balan Updated",
+            "test_updated@email.com",
+            "p@sw0rd_updated",
+            "123456789",
+            "qwe"
+        )
+
+        return invalid_updated_user
+
+
+    def to_json(self) -> str:
         user_json = {
-            "id": user.id,
-            "username": user.username,
-            "firstName": user.firstName,
-            "lastName": user.lastName,
-            "email": user.email,
-            "password": user.password,
-            "phone": user.phone,
-            "userStatus": user.userStatus
+            "id": self.id,
+            "username": self.username,
+            "firstName": self.firstName,
+            "lastName": self.lastName,
+            "email": self.email,
+            "password": self.password,
+            "phone": self.phone,
+            "userStatus": self.userStatus
         }
 
         return json.dumps(user_json)

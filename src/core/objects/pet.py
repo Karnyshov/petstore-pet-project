@@ -1,19 +1,18 @@
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Union
 from random import randint
 import json
 
 
 @dataclass
 class Pet:
-    pet_id: Any
+    pet_id: Union[int, Any]
     name: str
     status: str
     photoUrls: list
     tags: list
     category: dict
 
-    # TODO: move to fixture
     @staticmethod
     def generate_pet():
         pet = Pet(
@@ -33,68 +32,72 @@ class Pet:
 
         return pet
 
-    # TODO: move to fixture
     @staticmethod
     def update_pet(created_pet):
-        created_pet.name = "Bob_updated"
-        created_pet.status = "sold"
-        created_pet.photoUrls = ["https://youtube.com"]
-        created_pet.tags = [{
-            "id": randint(0, 10),
-            "name": "Tag Test Updated"
-        }]
-        created_pet.category = {
-            "id": randint(0, 10),
-            "name": "dog updated"
-        }
-
-        return created_pet
-
-    # TODO: move to fixture
-    @staticmethod
-    def update_pet_invalid_id(created_pet):
-        created_pet.pet_id = "qwe",
-        created_pet.name = "Bob_updated",
-        created_pet.status = "sold",
-        created_pet.photoUrls = ["https://youtube.com"],
-        created_pet.tags = [{
+        updated_pet = Pet(
+            created_pet.pet_id,
+            "Bob_updated",
+            "sold",
+            ["https://youtube.com"],
+            [{
                 "id": randint(0, 10),
                 "name": "Tag Test Updated"
             }],
-        created_pet.category = {
+            {
                 "id": randint(0, 10),
                 "name": "dog updated"
             }
+        )
 
-        return created_pet
+        return updated_pet
 
-    # TODO: move to fixture
+    @staticmethod
+    def update_pet_invalid_id():
+        pet_invalid_id = Pet(
+            "qwe",
+            "Bob_updated",
+            "sold",
+            ["https://youtube.com"],
+            [{
+                "id": randint(0, 10),
+                "name": "Tag Test Updated"
+            }],
+            {
+                "id": randint(0, 10),
+                "name": "dog updated"
+            }
+        )
+
+        return pet_invalid_id
+
     @staticmethod
     def update_pet_invalid_body(created_pet):
-        created_pet.name = "Bob_updated"
-        created_pet.status = "sold"
-        created_pet.photoUrls = ["https://youtube.com"]
-        created_pet.tags = [{
-            "id": "qwe",
-            "name": "Tag Test Updated"
-        }]
-        created_pet.category = {
-            "id": randint(0, 10),
-            "name": "dog updated"
-        }
+        pet_invalid_body = Pet(
+            created_pet.pet_id,
+            "Bob_updated",
+            "sold",
+            ["https://youtube.com"],
+            [{
+                "id": "qwe",
+                "name": "Tag Test Updated"
+            }],
+            {
+                "id": randint(0, 10),
+                "name": "dog updated"
+            },
+        )
 
-        return created_pet
+        return pet_invalid_body
 
 
-    @staticmethod
-    def to_json(pet) -> str:
+    def to_json(self) -> str:
         pet_json = {
-            "id": pet.pet_id,
-            "name": pet.name,
-            "status": pet.status,
-            "photoUrls": pet.photoUrls,
-            "tags": pet.tags,
-            "category": pet.category
+            "id": self.pet_id,
+            "name": self.name,
+            "status": self.status,
+            "photoUrls": self.photoUrls,
+            "tags": self.tags,
+            "category": self.category
         }
 
         return json.dumps(pet_json)

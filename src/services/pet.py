@@ -6,19 +6,6 @@ from requests.api import get, post, put, delete
 class PetService:
     pet_url = f"{BaseAPI.base_url}pet/"
     find_by_status_url = f"{pet_url}findByStatus?status"
-    pet = Pet.generate_pet()
-    pet_to_valid_update= Pet.generate_pet()
-    pet_to_update_invalid_id = Pet.generate_pet()
-    pet_to_update_invalid_body = Pet.generate_pet()
-
-    pet_updated = Pet.update_pet(pet_to_valid_update)
-    pet_invalid_id = Pet.update_pet_invalid_id(pet_to_update_invalid_id)
-    pet_invalid_body = Pet.update_pet_invalid_body(pet_to_update_invalid_body)
-
-    pet_json = Pet.to_json(pet)
-    pet_updated_json = Pet.to_json(pet_updated)
-    pet_invalid_id_json = Pet.to_json(pet_invalid_id)
-    pet_invalid_body_json = Pet.to_json(pet_invalid_body)
 
     headers = BaseAPI.headers
 
@@ -36,3 +23,15 @@ class PetService:
 
     def delete_pet(self, pet_id):
         return delete(url=self.pet_url + f"{pet_id}", headers=self.headers)
+
+    @staticmethod
+    def update_valid_pet(pet_to_update):
+        return Pet.update_pet(pet_to_update)
+
+    @staticmethod
+    def update_pet_invalid_id():
+        return Pet.update_pet_invalid_id()
+
+    @staticmethod
+    def update_pet_invalid_body(pet_to_update):
+        return Pet.update_pet_invalid_body(pet_to_update)

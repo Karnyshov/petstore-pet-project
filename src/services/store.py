@@ -1,16 +1,10 @@
 from src.core.baseAPI import BaseAPI
-from src.core.objects.order import Order
 from requests.api import get, post, delete
 
 
 class StoreService:
     store_url = f"{BaseAPI.base_url}store/order/"
     inventory_url = f"{BaseAPI.base_url}store/inventory/"
-    order = Order.generate_order()
-    invalid_order = Order.generate_invalid_order()
-
-    order_json = Order.to_json(order)
-    invalid_order_json = Order.to_json(invalid_order)
 
     headers = BaseAPI.headers
 
