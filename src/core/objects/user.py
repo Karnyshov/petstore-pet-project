@@ -2,18 +2,19 @@ from dataclasses import dataclass
 from typing import Any
 from random import randint
 import json
+from faker import Faker
 
 
 @dataclass
 class User:
-    id: Any
-    username: str
-    firstName: str
-    lastName: str
-    email: str
-    password: str
-    phone: Any
-    userStatus: Any
+    id: Any = randint(1, 5)
+    userStatus: Any = randint(0, 1)
+    username: str = Faker().user_name()
+    firstName: str = Faker().first_name()
+    lastName: str = Faker().last_name()
+    email: str = Faker().email()
+    password: str = Faker().password()
+    phone: Any = Faker().phone_number()
 
     @staticmethod
     def generate_user():
