@@ -31,7 +31,6 @@ class User:
 
         return user
 
-
     @staticmethod
     def generate_invalid_user():
         user = User(
@@ -77,7 +76,6 @@ class User:
         )
 
         return invalid_updated_user
-
 
     def to_json(self) -> str:
         user_json = {

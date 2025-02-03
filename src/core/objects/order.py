@@ -3,15 +3,15 @@ from typing import Any
 from dataclasses import dataclass
 import json
 
-
+#TODO: add fake ship date
 @dataclass
 class Order:
-    order_id: int
-    pet_id: Any
-    quantity: int
-    shipDate: str
-    status: str
-    complete: bool
+    order_id: int = randint(1, 5)
+    pet_id: Any = randint(5, 10)
+    quantity: int = randint(10, 15)
+    shipDate: str = "2024-12-02T11:22:47.641Z"
+    status: str = "placed"
+    complete: bool = randint(0, 1)
 
     @staticmethod
     def generate_order():
@@ -25,7 +25,6 @@ class Order:
         )
 
         return order
-
 
     @staticmethod
     def generate_invalid_order():

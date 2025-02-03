@@ -1,17 +1,20 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Union
 from random import randint
+from faker import Faker
 import json
 
 
 @dataclass
 class Pet:
-    pet_id: Union[int, Any]
-    name: str
-    status: str
-    photoUrls: list
-    tags: list
-    category: dict
+    pet_id: Union[int, Any] = randint(0, 10)
+    name: str = Faker().first_name()
+    status: str = "available"
+    photoUrls: list = field(default_factory=lambda: [Faker().url()])
+    tags: list = field(default_factory=lambda: [{"id": randint(10, 20),
+                   "firstname": Faker().name()}])
+    category: dict = field(default_factory=lambda: {"id": randint(0, 10),
+                      "gender": Faker().passport_gender(0)})
 
     @staticmethod
     def generate_pet():
