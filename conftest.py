@@ -56,7 +56,7 @@ def parsed_pet(create_valid_pet):
     yield parsed_pet
 
 
-@pytest.fixture(scope="function", params=UserData.id)
+@pytest.fixture(scope="function", params=UserData.phone)
 def valid_user(request):
     user = generate_user(request.param)
     yield user
