@@ -7,13 +7,13 @@ from faker import Faker
 
 @dataclass
 class User:
-    id: Any = randint(1, 5)
+    user_id: Any = randint(1, 5)
     userStatus: Any = randint(0, 1)
     username: str = Faker().user_name()
     firstName: str = Faker().first_name()
     lastName: str = Faker().last_name()
     email: str = Faker().email()
-    password: str = Faker().password()
+    password: Any = Faker().password()
     phone: Any = Faker().phone_number()
 
     @staticmethod
@@ -79,7 +79,7 @@ class User:
 
     def to_json(self) -> str:
         user_json = {
-            "id": self.id,
+            "id": self.user_id,
             "username": self.username,
             "firstName": self.firstName,
             "lastName": self.lastName,

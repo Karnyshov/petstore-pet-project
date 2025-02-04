@@ -1,11 +1,12 @@
 import pytest
+
 from src.services.store import StoreService
 from src.services.pet import PetService
 from src.services.user import UserService
 from src.core.objects.order import Order
 from src.core.objects.pet import Pet
 from src.core.objects.user import User
-from test_data.test_data import UserData, generate_user
+from test_data.test_data import generated_users
 
 
 @pytest.fixture(scope="function")
@@ -56,10 +57,9 @@ def parsed_pet(create_valid_pet):
     yield parsed_pet
 
 
-@pytest.fixture(scope="function", params=UserData.phone)
+@pytest.fixture(scope="function", params=generated_users)
 def valid_user(request):
-    user = generate_user(request.param)
-    yield user
+    return request.param
 
 @pytest.fixture(scope="function")
 def invalid_user():

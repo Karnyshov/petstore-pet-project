@@ -4,6 +4,7 @@ from random import randint, uniform
 import string
 from src.core.objects.user import User
 
+fake = Faker()
 
 def generate_random_string(length = 10):
     random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=length))
@@ -83,7 +84,7 @@ class OrderData:
 class UserData:
     # null excluded for now
     # expect E500 for invalid data
-    fake = Faker()
+    #fake = Faker()
 
     id = [random_int(), random_float()] #float is floored
     invalid_id = [[], {}, generate_random_string()]
@@ -110,16 +111,57 @@ class UserData:
     invalid_user_status = [[], {}, generate_random_string(), "true", "false"]
 
 
-def generate_user(phone_number):
-    user = User(
-    randint(1, 1000),
-    randint(0, 1),
-    Faker().user_name(),
-    Faker().first_name(),
-    Faker().last_name(),
-    Faker().password(),
-    Faker().email(),
-    phone_number
-    )
+# def generate_user(phone_number, password):
+#     user = User(
+#     randint(1, 1000),
+#     randint(0, 1),
+#     Faker().user_name(),
+#     Faker().first_name(),
+#     Faker().last_name(),
+#     password,
+#     Faker().email(),
+#     phone_number
+#     )
+#
+#     return user
 
-    return user
+# def generate_users():
+#     return [
+#         User(phone=UserData.phone, password=UserData.password)
+#     ]
+#
+# users = generate_users()
+
+def auto_generate_users():
+    user_test_data = [
+        {"id": random_int(), "username": "", "first_name": "", "last_name": "", "email": "", "password": "",
+         "phone": fake.phone_number(), "user_status": random_int()},
+        {"id": random_float(), "username": fake.user_name(), "first_name": fake.first_name(),
+         "last_name": fake.last_name(), "email": fake.email(), "password": fake.password(), "phone": random_int(),
+         "user_status": random_float()},
+        {"id": None, "username": random_int(), "first_name": random_int(),
+         "last_name": random_int(), "email": random_int(), "password": random_int(), "phone": random_float(),
+         "user_status": None},
+        {"id": None, "username": random_float(), "first_name": random_float(), "last_name": random_float(),
+         "email": random_float(), "password": random_float(), "phone": generate_random_string(), "user_status": None}
+    ]
+
+    auto_generated_users = []
+
+    for test_data in user_test_data:
+        auto_generated_users.append(
+            User(
+                user_id=test_data.get("id"),
+                username=test_data.get("username"),
+                firstName=test_data.get("first_name"),
+                lastName=test_data.get("last_name"),
+                email=test_data.get("email"),
+                password=test_data.get("password"),
+                phone=test_data.get("phone"),
+                userStatus=test_data.get("user_status")
+            )
+        )
+
+    return auto_generated_users
+
+generated_users = auto_generate_users()
