@@ -10,8 +10,8 @@ class Pet:
     pet_id: Union[int, Any] = randint(0, 10)
     name: str = Faker().first_name()
     status: str = "available"
-    photoUrls: list = field(default_factory=lambda: [Faker().url()])
-    tags: list = field(default_factory=lambda: [{"id": randint(10, 20),
+    photoUrls: Union[list, Any] = field(default_factory=lambda: [Faker().url()])
+    tags: Union[list, Any] = field(default_factory=lambda: [{"id": randint(10, 20),
                    "firstname": Faker().name()}])
     category: dict = field(default_factory=lambda: {"id": randint(0, 10),
                       "gender": Faker().passport_gender(0)})

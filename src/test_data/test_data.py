@@ -2,6 +2,9 @@ import random
 from faker import Faker
 from random import randint, uniform
 import string
+
+from core.objects.order import Order
+from core.objects.pet import Pet
 from src.core.objects.user import User
 
 fake = Faker()
@@ -20,7 +23,7 @@ def random_float(minimal = 1.0, maximum = 1000.0):
 class PetData:
     #null excluded for now
     #expect E500 for invalid data
-    fake = Faker()
+    #fake = Faker()
 
     name = ["", fake.name()]
     invalid_name = [[], {}]
@@ -61,10 +64,10 @@ class PetData:
 class OrderData:
     #null excluded for now
     #expect E500 for invalid data
-    fake = Faker()
+    #fake = Faker()
 
     id = [random_int(), random_float(), ""] #empty string sets id to random
-    invalid_id = [[], {}, generate_random_string(), ""]
+    invalid_id = [[], {}, generate_random_string()]
 
     pet_id = [random_int(), random_float()] #float is floored
     invalid_pet_id = [[], {}, generate_random_string()] #empty string sets id to 0
@@ -125,12 +128,86 @@ class UserData:
 #
 #     return user
 
-# def generate_users():
-#     return [
-#         User(phone=UserData.phone, password=UserData.password)
-#     ]
-#
-# users = generate_users()
+def auto_generate_pets():
+    pet_test_data = [
+        {"name": "", "photo_urls": "", "id": random_int(),
+         "category": {
+             "category_id": random_int(),
+             "category_name": random_int()
+         },
+        "tags": {
+            "tags_id": random_int(),
+            "tags_name": random_int()
+        },
+         "status": "available"
+         },
+        {"name": fake.name(), "photo_urls": fake.url(), "id": random_float(),
+         "category": {
+             "category_id": random_float(),
+             "category_name": random_float()
+         },
+         "tags": {
+             "tags_id": random_float(),
+             "tags_name": random_float()
+         },
+         "status": "pending"},
+        {"name": None, "photo_urls": None, "id": None,
+         "category": {
+             "category_id": None,
+             "category_name": fake.name()
+         },
+         "tags": {
+             "tags_id": None,
+             "tags_name": fake.name()
+         },
+         "status": "sold"}
+    ]
+
+    auto_generated_pets = []
+
+    for test_data in pet_test_data:
+        auto_generated_pets.append(
+            Pet(
+                pet_id = test_data.get("id"),
+                name = test_data.get("name"),
+                status = test_data.get("status"),
+                photoUrls = test_data.get("photo_urls"),
+                tags = test_data.get("tags"),
+                category = test_data.get("category")
+            )
+        )
+
+    return auto_generated_pets
+
+def auto_generate_orders():
+    order_test_data = [
+        {"id": "", "pet_id": "", "quantity": "", "ship_date": fake.iso8601(end_datetime=fake.future_datetime()),
+         "status": "", "complete": ""},
+        {"id": random_int(), "pet_id": random_int(), "quantity": random_int(), "ship_date": random_int(),
+         "status": "placed", "complete": 0},
+        {"id": random_float(), "pet_id": random_float(), "quantity": random_float(), "ship_date": None,
+         "status": random_int(), "complete": 1},
+        {"id": None, "pet_id": None, "quantity": None, "ship_date": None,
+         "status": random_float(), "complete": "True"},
+        {"id": None, "pet_id": None, "quantity": None, "ship_date": None,
+         "status": None, "complete": "False"},
+    ]
+
+    auto_generated_orders = []
+
+    for test_data in order_test_data:
+        auto_generated_orders.append(
+            Order(
+                order_id=test_data.get("id"),
+                pet_id=test_data.get("pet_id"),
+                quantity=test_data.get("quantity"),
+                shipDate=test_data.get("ship_date"),
+                status=test_data.get("status"),
+                complete=test_data.get("complete")
+            )
+        )
+
+    return auto_generated_orders
 
 def auto_generate_users():
     user_test_data = [
@@ -164,4 +241,6 @@ def auto_generate_users():
 
     return auto_generated_users
 
+generated_pets = auto_generate_pets()
+generated_orders = auto_generate_orders()
 generated_users = auto_generate_users()

@@ -1,17 +1,17 @@
 from random import randint
-from typing import Any
+from typing import Any, Union
 from dataclasses import dataclass
 import json
 
 #TODO: add fake ship date
 @dataclass
 class Order:
-    order_id: int = randint(1, 5)
-    pet_id: Any = randint(5, 10)
-    quantity: int = randint(10, 15)
+    order_id: Union[int, Any] = randint(1, 5)
+    pet_id: Union[int, Any] = randint(5, 10)
+    quantity: Union[int, Any] = randint(10, 15)
     shipDate: str = "2024-12-02T11:22:47.641Z"
     status: str = "placed"
-    complete: bool = randint(0, 1)
+    complete: Union[bool, Any] = randint(0, 1)
 
     @staticmethod
     def generate_order():

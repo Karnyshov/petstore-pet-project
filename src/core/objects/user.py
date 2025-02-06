@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Union
 from random import randint
 import json
 from faker import Faker
@@ -7,14 +7,14 @@ from faker import Faker
 
 @dataclass
 class User:
-    user_id: Any = randint(1, 5)
-    userStatus: Any = randint(0, 1)
+    user_id: Union[int, Any] = randint(1, 5)
+    userStatus: Union[int, Any] = randint(0, 1)
     username: str = Faker().user_name()
     firstName: str = Faker().first_name()
     lastName: str = Faker().last_name()
     email: str = Faker().email()
-    password: Any = Faker().password()
-    phone: Any = Faker().phone_number()
+    password: Union[str, Any] = Faker().password()
+    phone: Union[str, Any] = Faker().phone_number()
 
     @staticmethod
     def generate_user():
