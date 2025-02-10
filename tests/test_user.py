@@ -1,9 +1,15 @@
 import pytest
 from conftest import user_service, create_valid_user, valid_user, invalid_user
+from test_data.test_data import generated_users
 
 class TestUser:
     def test_create_user(self, user_service, valid_user):
         response = user_service.create_user(valid_user.to_json())
+        assert 200 == response.status_code
+
+    @pytest.mark.parametrize("user", generated_users)
+    def test_create_param_user(self, user_service, user):
+        response = user_service.create_user(user.to_json())
         assert 200 == response.status_code
 
     @pytest.mark.xfail

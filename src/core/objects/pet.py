@@ -17,25 +17,6 @@ class Pet:
                       "gender": Faker().passport_gender(0)})
 
     @staticmethod
-    def generate_pet():
-        pet = Pet(
-            randint(0, 10),
-            "Bob",
-            "available",
-            ["https://youtube.com"],
-            [{
-                "id": randint(0, 10),
-                "name": "Tag Test"
-            }],
-            {
-                "id": randint(0, 10),
-                "name": "dog"
-            }
-        )
-
-        return pet
-
-    @staticmethod
     def update_pet(created_pet):
         updated_pet = Pet(
             created_pet.pet_id,

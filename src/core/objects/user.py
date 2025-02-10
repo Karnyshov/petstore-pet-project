@@ -17,21 +17,6 @@ class User:
     phone: Union[str, Any] = Faker().phone_number()
 
     @staticmethod
-    def generate_user():
-        user = User(
-            randint(0, 10),
-            "Bob User",
-            "Bob Valid",
-            "Balan",
-            "test@email.com",
-            "p@sw0rd",
-            "0991234567",
-            randint(0, 2)
-        )
-
-        return user
-
-    @staticmethod
     def generate_invalid_user():
         user = User(
             randint(0, 10),

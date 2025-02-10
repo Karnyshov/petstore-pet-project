@@ -1,11 +1,15 @@
 import pytest
 from conftest import pet_service, valid_pet, create_valid_pet, parsed_pet
-from src.test_data.test_data import PetData
+from src.test_data.test_data import PetData, generated_pets
 
 class TestPet:
-    # TODO: add generation & parametrization
     def test_create_pet(self, pet_service, valid_pet):
         response = pet_service.create_pet(valid_pet.to_json())
+        assert 200 == response.status_code
+
+    @pytest.mark.parametrize("pets", generated_pets)
+    def test_create_param_pet(self, pet_service, pets):
+        response = pet_service.create_pet(pets.to_json())
         assert 200 == response.status_code
 
     @pytest.mark.parametrize('status', PetData.status)

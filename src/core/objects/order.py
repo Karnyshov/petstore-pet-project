@@ -14,19 +14,6 @@ class Order:
     complete: Union[bool, Any] = randint(0, 1)
 
     @staticmethod
-    def generate_order():
-        order = Order(
-            randint(0, 10),
-            randint(0, 10),
-            randint(0, 10),
-            "2023-06-26T15:38:10.849Z",
-            "complete",
-            bool(randint(0, 1))
-        )
-
-        return order
-
-    @staticmethod
     def generate_invalid_order():
         order = Order(
             bool(randint(0, 1)),

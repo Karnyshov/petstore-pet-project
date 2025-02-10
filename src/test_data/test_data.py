@@ -23,33 +23,21 @@ def random_float(minimal = 1.0, maximum = 1000.0):
 class PetData:
     #null excluded for now
     #expect E500 for invalid data
-    #fake = Faker()
 
-    name = ["", fake.name()]
     invalid_name = [[], {}]
-
-    photo_urls = ["", fake.url()]
     invalid_photo_urls = [[], {}]
-
-    id = [random_int(), random_float()] #float is floored
     invalid_id = [[], {}, generate_random_string()]
 
     category = [{"gender": fake.passport_gender(0)}] #dict is 200
     invalid_category = [{generate_random_string(): generate_random_string()}, random_int(), random_float(), generate_random_string(), [], {}] #dict is 200
 
-    category_id = [random_int(), random_float()] #except float is 200 and floored
     invalid_category_id = [[], {}, generate_random_string()]
-
-    category_name = [random_int(), random_float(), fake.name()] #float is floored
     invalid_category_name = [[], {}, random_int(), random_float()]
 
     tags = [{"firstname": fake.name()}] #dict is 200
     invalid_tags = [random_int(), random_float(), generate_random_string(), [], {}]
 
-    tags_id = [random_int(), random_float()] #float is floored
     invalid_tags_id = [[], {}, generate_random_string()]
-
-    tags_name = [random_int(), random_float(), fake.name()] #float is floored
     invalid_tags_name = [[], {}]
 
     status = ["available", "pending", "sold"]
@@ -64,21 +52,11 @@ class PetData:
 class OrderData:
     #null excluded for now
     #expect E500 for invalid data
-    #fake = Faker()
 
-    id = [random_int(), random_float(), ""] #empty string sets id to random
     invalid_id = [[], {}, generate_random_string()]
-
-    pet_id = [random_int(), random_float()] #float is floored
-    invalid_pet_id = [[], {}, generate_random_string()] #empty string sets id to 0
-
-    quantity = [random_int(), random_float()] #float is floored
-    invalid_quantity = [[], {}, generate_random_string()] #empty string sets id to 0
-
-    ship_date = [fake.iso8601(end_datetime=fake.future_datetime()), random_int()] #int sets default timestamp 1970 + mil sec
+    invalid_pet_id = [[], {}, generate_random_string()]
+    invalid_quantity = [[], {}, generate_random_string()]
     invalid_ship_date = [[], {}, generate_random_string(), random_float()]
-
-    status = ["placed", "", random_int(), random_float()] #int and float are 200 (passed as string)
     invalid_statuses = [[], {}]
 
     complete = [0, 1, "True", "False", ""] #empty string sets to False. #int > 1 sets to True
@@ -87,46 +65,15 @@ class OrderData:
 class UserData:
     # null excluded for now
     # expect E500 for invalid data
-    #fake = Faker()
 
-    id = [random_int(), random_float()] #float is floored
     invalid_id = [[], {}, generate_random_string()]
-
-    username = ["", fake.user_name(), random_int(), random_float()] #int and float are passed as string
     invalid_username = [[], {}]
-
-    firstname = ["", fake.first_name(), random_int(), random_float()] #int and float are passed as string
     invalid_firstname = [[], {}]
-
-    lastname = ["", fake.last_name(), random_int(), random_float()] #int and float are passed as string
     invalid_lastname = [[], {}]
-
-    email = ["", fake.email(), random_int(), random_float()] #int and float are passed as string
     invalid_email = [[], {}]
-
-    password = ["", fake.password(), random_int(), random_float()] #int and float are passed as string
     invalid_password = [[], {}]
-
-    phone = [fake.phone_number(), random_int(), random_float(), generate_random_string()] #int and float are passed as string
     invalid_phone = [[], {}]
-
-    user_status = [random_int(), random_float()] #float is floored
-    invalid_user_status = [[], {}, generate_random_string(), "true", "false"]
-
-
-# def generate_user(phone_number, password):
-#     user = User(
-#     randint(1, 1000),
-#     randint(0, 1),
-#     Faker().user_name(),
-#     Faker().first_name(),
-#     Faker().last_name(),
-#     password,
-#     Faker().email(),
-#     phone_number
-#     )
-#
-#     return user
+    invalid_user_status = [[], {}, generate_random_string()]
 
 def auto_generate_pets():
     pet_test_data = [
@@ -143,12 +90,12 @@ def auto_generate_pets():
          },
         {"name": fake.name(), "photo_urls": fake.url(), "id": random_float(),
          "category": {
-             "category_id": random_float(),
-             "category_name": random_float()
+             "category_id": random_float(), #float is 200 and floored
+             "category_name": random_float() #float is 200 and floored
          },
          "tags": {
-             "tags_id": random_float(),
-             "tags_name": random_float()
+             "tags_id": random_float(), #float is floored
+             "tags_name": random_float() #float is floored
          },
          "status": "pending"},
         {"name": None, "photo_urls": None, "id": None,
@@ -168,12 +115,12 @@ def auto_generate_pets():
     for test_data in pet_test_data:
         auto_generated_pets.append(
             Pet(
+                name=test_data.get("name"),
+                photoUrls=[test_data.get("photo_urls")],
                 pet_id = test_data.get("id"),
-                name = test_data.get("name"),
-                status = test_data.get("status"),
-                photoUrls = test_data.get("photo_urls"),
-                tags = test_data.get("tags"),
-                category = test_data.get("category")
+                category=test_data.get("category"),
+                tags = [test_data.get("tags")],
+                status = test_data.get("status")
             )
         )
 
@@ -181,12 +128,16 @@ def auto_generate_pets():
 
 def auto_generate_orders():
     order_test_data = [
+        #empty string sets id to random for id, sets id to 0 for pet_id, quantity
+        #float is floored for id, pet_id, quantity
+        #int and float are 200 (passed as string) for status
+        # int sets default timestamp 1970 + mil sec for ship_date
         {"id": "", "pet_id": "", "quantity": "", "ship_date": fake.iso8601(end_datetime=fake.future_datetime()),
          "status": "", "complete": ""},
         {"id": random_int(), "pet_id": random_int(), "quantity": random_int(), "ship_date": random_int(),
          "status": "placed", "complete": 0},
         {"id": random_float(), "pet_id": random_float(), "quantity": random_float(), "ship_date": None,
-         "status": random_int(), "complete": 1},
+         "status": random_int(), "complete": 1}, #float is floored
         {"id": None, "pet_id": None, "quantity": None, "ship_date": None,
          "status": random_float(), "complete": "True"},
         {"id": None, "pet_id": None, "quantity": None, "ship_date": None,
@@ -210,6 +161,8 @@ def auto_generate_orders():
     return auto_generated_orders
 
 def auto_generate_users():
+    # float is floored for id, status
+    # int and float are passed as string for username, firstname, lastname, email, password, phone
     user_test_data = [
         {"id": random_int(), "username": "", "first_name": "", "last_name": "", "email": "", "password": "",
          "phone": fake.phone_number(), "user_status": random_int()},

@@ -6,7 +6,6 @@ from src.services.user import UserService
 from src.core.objects.order import Order
 from src.core.objects.pet import Pet
 from src.core.objects.user import User
-from test_data.test_data import generated_users
 
 
 @pytest.fixture(scope="function")
@@ -23,8 +22,7 @@ def user_service():
 
 @pytest.fixture(scope="function")
 def valid_order():
-    order = Order.generate_order()
-    yield order
+    yield Order()
 
 @pytest.fixture(scope="function")
 def invalid_order():
@@ -43,8 +41,7 @@ def parsed_order(create_valid_order):
 
 @pytest.fixture(scope="function")
 def valid_pet():
-    pet = Pet.generate_pet()
-    yield pet
+    yield Pet()
 
 @pytest.fixture(scope="function")
 def create_valid_pet(pet_service, valid_pet):
@@ -57,9 +54,9 @@ def parsed_pet(create_valid_pet):
     yield parsed_pet
 
 
-@pytest.fixture(scope="function", params=generated_users)
-def valid_user(request):
-    return request.param
+@pytest.fixture(scope="function")
+def valid_user():
+    yield User()
 
 @pytest.fixture(scope="function")
 def invalid_user():
