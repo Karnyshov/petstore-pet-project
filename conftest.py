@@ -53,7 +53,6 @@ def parsed_pet(create_valid_pet):
     parsed_pet = create_valid_pet.json()
     yield parsed_pet
 
-
 @pytest.fixture(scope="function")
 def valid_user():
     yield User()

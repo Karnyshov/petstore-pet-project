@@ -1,6 +1,6 @@
 import pytest
 from conftest import store_service, valid_order, parsed_order, invalid_order
-from test_data.test_data import generated_orders
+from test_data.test_data_generation import generated_orders
 
 class TestStore:
     def test_get_inventory(self, store_service):

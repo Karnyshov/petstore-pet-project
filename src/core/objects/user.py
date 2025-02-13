@@ -4,7 +4,6 @@ from random import randint
 import json
 from faker import Faker
 
-
 @dataclass
 class User:
     user_id: Union[int, Any] = randint(1, 5)
@@ -35,7 +34,7 @@ class User:
     @staticmethod
     def update_user(created_user):
         updated_user = User(
-            randint(0, 10),
+            randint(5, 10),
             created_user.username,
             "Bob Updated",
             "Balan Updated",

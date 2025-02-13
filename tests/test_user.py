@@ -1,6 +1,6 @@
 import pytest
 from conftest import user_service, create_valid_user, valid_user, invalid_user
-from test_data.test_data import generated_users
+from test_data.test_data_generation import generated_users, generated_updated_users, random_username
 
 class TestUser:
     def test_create_user(self, user_service, valid_user):
@@ -23,6 +23,12 @@ class TestUser:
         response = user_service.update_user(valid_user.username, updated_user.to_json())
         assert 200 == response.status_code
 
+    @pytest.mark.parametrize("users", generated_updated_users)
+    def test_update_param_user(self, user_service, create_valid_user, valid_user, users):
+        updated_users = user_service.updating_users(valid_user.username, users)
+        response = user_service.update_user(valid_user.username, updated_users.to_json())
+        assert 200 == response.status_code
+
     @pytest.mark.xfail
     # return 500 instead of 400
     # TODO: add more cases
@@ -33,9 +39,8 @@ class TestUser:
 
     @pytest.mark.xfail
     # return 200 instead of 404
-    # TODO: add more cases
-    def test_update_absent_user(self, user_service):
-        response = user_service.update_user(user_service.user.username, user_service.user_json)
+    def test_update_absent_user(self, user_service, valid_user):
+        response = user_service.update_user(random_username(), valid_user.to_json())
         assert 404 == response.status_code
 
     def test_get_user_by_username(self, user_service, create_valid_user, valid_user):

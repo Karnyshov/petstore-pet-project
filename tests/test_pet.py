@@ -1,6 +1,6 @@
 import pytest
 from conftest import pet_service, valid_pet, create_valid_pet, parsed_pet
-from src.test_data.test_data import PetData, generated_pets
+from src.test_data.test_data_generation import PetData, generated_pets
 
 class TestPet:
     def test_create_pet(self, pet_service, valid_pet):
