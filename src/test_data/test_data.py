@@ -83,3 +83,21 @@ user_data = [
         {"id": None, "username": random_float(), "first_name": random_float(), "last_name": random_float(),
          "email": random_float(), "password": random_float(), "phone": random_string(), "user_status": None}
     ]
+
+invalid_user_random = {
+    # null excluded for now
+    # expect E500 for invalid data
+    "id": [random_string(), [], {}], "username": [[], {}], "first_name": [[], {}], "last_name": [[], {}],
+    "email": [[], {}], "password": [[], {}], "phone": [[], {}], "user_status": [random_string(), [], {}]
+}
+
+invalid_user_data = [
+    # null excluded for now
+    # expect E500 for invalid data
+        {"id": random_string(), "username": [], "first_name": [], "last_name": [], "email": [], "password": [],
+         "phone": [], "user_status": random_string()},
+        {"id": [], "username": {}, "first_name": {}, "last_name": {}, "email": {}, "password": {},
+        "phone": {}, "user_status": []},
+        {"id": {}, "username": None, "first_name": None, "last_name": None, "email": None, "password": None,
+        "phone": None, "user_status": {}}
+]

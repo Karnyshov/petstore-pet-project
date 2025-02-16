@@ -45,5 +45,6 @@ class UserService:
         return user
 
     @staticmethod
-    def invalid_update_user(created_user):
-        return User.invalid_update_user(created_user)
+    def invalid_update_user(created_user, user):
+        user.username = created_user.username
+        return user

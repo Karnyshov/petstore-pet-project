@@ -6,6 +6,7 @@ from src.services.user import UserService
 from src.core.objects.order import Order
 from src.core.objects.pet import Pet
 from src.core.objects.user import User
+from test_data.test_data_generation import generated_invalid_user
 
 
 @pytest.fixture(scope="function")
@@ -59,8 +60,7 @@ def valid_user():
 
 @pytest.fixture(scope="function")
 def invalid_user():
-    invalid_user = User.generate_invalid_user()
-    yield invalid_user
+    yield generated_invalid_user
 
 @pytest.fixture(scope="function")
 def create_valid_user(user_service, valid_user):

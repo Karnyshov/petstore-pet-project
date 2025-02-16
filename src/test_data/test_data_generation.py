@@ -6,7 +6,7 @@ import string
 from core.objects.order import Order
 from core.objects.pet import Pet
 from src.core.objects.user import User
-from test_data.test_data import pet_data, order_data, user_data
+from test_data.test_data import pet_data, order_data, user_data, invalid_user_random, invalid_user_data
 
 fake = Faker()
 
@@ -66,18 +66,6 @@ class OrderData:
     complete = [0, 1, "True", "False", ""] #empty string sets to False. #int > 1 sets to True
     invalid_complete = [[], {}, random_string(), random_float()]
 
-class UserData:
-    # null excluded for now
-    # expect E500 for invalid data
-
-    invalid_id = [[], {}, random_string()]
-    invalid_username = [[], {}]
-    invalid_firstname = [[], {}]
-    invalid_lastname = [[], {}]
-    invalid_email = [[], {}]
-    invalid_password = [[], {}]
-    invalid_phone = [[], {}]
-    invalid_user_status = [[], {}, random_string()]
 
 def auto_generate_pets(pet_test_data):
     auto_generated_pets = []
@@ -151,7 +139,23 @@ def auto_generate_updated_users(username=None, user_test_data=user_data):
 
     return auto_generated_updated_users
 
+def generate_invalid_user(test_data):
+    return User(
+        user_id=random.choice(test_data.get("id")),
+        username=random.choice(test_data.get("username")),
+        firstName=random.choice(test_data.get("first_name")),
+        lastName=random.choice(test_data.get("last_name")),
+        email=random.choice(test_data.get("email")),
+        password=random.choice(test_data.get("password")),
+        phone=random.choice(test_data.get("phone")),
+        userStatus=random.choice(test_data.get("user_status")),
+    )
+
 generated_pets = auto_generate_pets(pet_data)
 generated_orders = auto_generate_orders(order_data)
+
+generated_invalid_user = generate_invalid_user(invalid_user_random)
 generated_users = auto_generate_users(user_data)
+generated_invalid_users = auto_generate_users(invalid_user_data)
 generated_updated_users = auto_generate_updated_users(user_test_data=user_data)
+generated_updated_invalid_users = auto_generate_updated_users(user_test_data=invalid_user_data)
