@@ -6,7 +6,8 @@ import string
 from core.objects.order import Order
 from core.objects.pet import Pet
 from src.core.objects.user import User
-from test_data.test_data import pet_data, order_data, user_data, invalid_user_random, invalid_user_data
+from test_data.test_data import pet_data, order_data, user_data, invalid_user_random, invalid_user_data, \
+    random_invalid_username
 
 fake = Faker()
 
@@ -159,3 +160,5 @@ generated_users = auto_generate_users(user_data)
 generated_invalid_users = auto_generate_users(invalid_user_data)
 generated_updated_users = auto_generate_updated_users(user_test_data=user_data)
 generated_updated_invalid_users = auto_generate_updated_users(user_test_data=invalid_user_data)
+generated_invalid_username = random_invalid_username()
+generated_username = random_username()

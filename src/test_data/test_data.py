@@ -1,5 +1,7 @@
+import random
+
 from faker import Faker
-from random import randint, uniform, choices
+from random import randint, uniform, choices, choice
 import string
 
 fake = Faker()
@@ -17,6 +19,8 @@ def random_int(minimal = 1, maximum = 1000):
 def random_float(minimal = 1.0, maximum = 1000.0):
     return uniform(minimal, maximum)
 
+def random_invalid_username():
+    return random.choice([[], {}])
 
 order_data = [
         #empty string sets id to random for id, sets id to 0 for pet_id, quantity

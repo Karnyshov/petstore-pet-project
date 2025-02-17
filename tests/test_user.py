@@ -1,6 +1,6 @@
 import pytest
 from conftest import user_service, create_valid_user, valid_user, invalid_user
-from test_data.test_data_generation import generated_users, generated_updated_users, generated_invalid_users, random_username, generated_updated_invalid_users
+from test_data.test_data_generation import generated_users, generated_updated_users, generated_invalid_users, random_username, generated_updated_invalid_users, generated_invalid_username, generated_username
 
 class TestUser:
     def test_create_user(self, user_service, valid_user):
@@ -47,8 +47,8 @@ class TestUser:
     @pytest.mark.parametrize("users", generated_updated_invalid_users)
     # return 500 instead of 400
     def test_update_param_invalid_user(self, user_service, create_valid_user, valid_user, users):
-        updated_users = user_service.updating_user(valid_user.username, users)
-        response = user_service.update_user(valid_user.username, updated_users)
+        updated_users = user_service.updating_users(valid_user.username, users)
+        response = user_service.update_user(valid_user.username, updated_users.to_json())
         assert 400 == response.status_code
 
     @pytest.mark.xfail
@@ -63,16 +63,13 @@ class TestUser:
 
     @pytest.mark.xfail
     # return 404 instead of 400
-    # TODO: add more cases
     def test_get_user_invalid_username(self, user_service):
-        response = user_service.get_user("[]")
+        response = user_service.get_user(generated_invalid_username)
         assert 400 == response.status_code
 
-    @pytest.mark.xfail
-    # return 200 instead of 404
-    # TODO: add more cases
+    # may return 200 instead of 404
     def test_get_absent_user(self, user_service):
-        response = user_service.get_user("poi098")
+        response = user_service.get_user(generated_username)
         assert 404 == response.status_code
 
     def test_delete_user(self, user_service, create_valid_user, valid_user):
