@@ -6,7 +6,7 @@ from src.services.user import UserService
 from src.core.objects.order import Order
 from src.core.objects.pet import Pet
 from src.core.objects.user import User
-from test_data.test_data_generation import generated_invalid_user
+from test_data.test_data_generation import generated_invalid_user, generated_invalid_order
 
 
 @pytest.fixture(scope="function")
@@ -27,8 +27,7 @@ def valid_order():
 
 @pytest.fixture(scope="function")
 def invalid_order():
-    invalid_order = Order.generate_invalid_order()
-    yield invalid_order
+    yield generated_invalid_order
 
 @pytest.fixture(scope="function")
 def create_valid_order(store_service, valid_order):

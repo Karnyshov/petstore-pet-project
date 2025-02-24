@@ -1,6 +1,6 @@
 import pytest
 from conftest import store_service, valid_order, parsed_order, invalid_order
-from test_data.test_data_generation import generated_orders
+from test_data.test_data_generation import generated_orders, generated_invalid_orders
 
 class TestStore:
     def test_get_inventory(self, store_service):
@@ -17,10 +17,17 @@ class TestStore:
         response = store_service.create_order(order.to_json())
         assert 200 == response.status_code
 
-    # Service return 500 instead of 400
+    # returns 500 instead of 400
     @pytest.mark.xfail
     def test_create_invalid_order(self, store_service, invalid_order):
         response = store_service.create_order(invalid_order.to_json())
+        assert 400 == response.status_code
+
+    # returns 500 instead of 400
+    @pytest.mark.parametrize("order", generated_invalid_orders)
+    @pytest.mark.xfail
+    def test_create_param_invalid_order(self, store_service, order):
+        response = store_service.create_order(order.to_json())
         assert 400 == response.status_code
 
     def test_get_order_by_id(self, store_service, parsed_order):

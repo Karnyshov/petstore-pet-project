@@ -1,5 +1,4 @@
 import random
-
 from faker import Faker
 from random import randint, uniform, choices, choice
 import string
@@ -24,6 +23,7 @@ def random_invalid_username():
 
 order_data = [
         #empty string sets id to random for id, sets id to 0 for pet_id, quantity
+        #empty string sets to False. #int > 1 sets to True for complete
         #float is floored for id, pet_id, quantity
         #int and float are 200 (passed as string) for status
         #int sets default timestamp 1970 + mil sec for ship_date
@@ -36,8 +36,29 @@ order_data = [
         {"id": None, "pet_id": None, "quantity": None, "ship_date": None,
          "status": random_float(), "complete": "True"},
         {"id": None, "pet_id": None, "quantity": None, "ship_date": None,
-         "status": None, "complete": "False"},
+         "status": None, "complete": "False"}
     ]
+
+invalid_order_data = [
+    # null excluded for now
+    # expect E500 for invalid data
+        {"id": [], "pet_id": [], "quantity": [], "ship_date": [],
+         "status": [], "complete": []},
+        {"id": {}, "pet_id": {}, "quantity": {}, "ship_date": {},
+         "status": {}, "complete": {}},
+        {"id": random_string(), "pet_id": random_string(), "quantity": random_string(), "ship_date": random_string(),
+         "status": None, "complete": random_string()},
+        {"id": None, "pet_id": None, "quantity": None, "ship_date": random_float(),
+         "status": None, "complete": random_float()}
+]
+
+invalid_order_random = {
+    # null excluded for now
+    # expect E500 for invalid data
+    "id": [[], {}, random_string()], "pet_id": [[], {}, random_string()], "quantity": [[], {}, random_string()],
+     "ship_date": [[], {}, random_string(), random_float()], "status": [[], {}, random_float()],
+     "complete": [[], {}, random_string(), random_float()]
+}
 
 pet_data = [
     {"name": "", "photo_urls": "", "id": random_int(),

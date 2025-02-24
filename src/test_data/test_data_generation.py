@@ -7,7 +7,7 @@ from core.objects.order import Order
 from core.objects.pet import Pet
 from src.core.objects.user import User
 from test_data.test_data import pet_data, order_data, user_data, invalid_user_random, invalid_user_data, \
-    random_invalid_username
+    random_invalid_username, invalid_order_data, invalid_order_random
 
 fake = Faker()
 
@@ -54,20 +54,6 @@ class PetData:
     form_data = []
     invalid_form_data = []
 
-class OrderData:
-    #null excluded for now
-    #expect E500 for invalid data
-
-    invalid_id = [[], {}, random_string()]
-    invalid_pet_id = [[], {}, random_string()]
-    invalid_quantity = [[], {}, random_string()]
-    invalid_ship_date = [[], {}, random_string(), random_float()]
-    invalid_statuses = [[], {}]
-
-    complete = [0, 1, "True", "False", ""] #empty string sets to False. #int > 1 sets to True
-    invalid_complete = [[], {}, random_string(), random_float()]
-
-
 def auto_generate_pets(pet_test_data):
     auto_generated_pets = []
 
@@ -101,6 +87,16 @@ def auto_generate_orders(order_test_data):
         )
 
     return auto_generated_orders
+
+def generate_invalid_order(test_data):
+    return Order(
+        order_id=random.choice(test_data.get("id")),
+        pet_id=random.choice(test_data.get("pet_id")),
+        quantity=random.choice(test_data.get("quantity")),
+        shipDate=random.choice(test_data.get("ship_date")),
+        status=random.choice(test_data.get("status")),
+        complete=random.choice(test_data.get("complete"))
+    )
 
 def auto_generate_users(user_test_data):
     auto_generated_users = []
@@ -153,7 +149,10 @@ def generate_invalid_user(test_data):
     )
 
 generated_pets = auto_generate_pets(pet_data)
+
 generated_orders = auto_generate_orders(order_data)
+generated_invalid_orders = auto_generate_orders(invalid_order_data)
+generated_invalid_order = generate_invalid_order(invalid_order_random)
 
 generated_invalid_user = generate_invalid_user(invalid_user_random)
 generated_users = auto_generate_users(user_data)
