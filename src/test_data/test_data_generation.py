@@ -1,52 +1,16 @@
 import random
-from faker import Faker
-from random import randint, uniform
-import string
-
 from core.objects.order import Order
 from core.objects.pet import Pet
 from src.core.objects.user import User
 from test_data.test_data import pet_data, order_data, user_data, invalid_user_random, invalid_user_data, \
-    random_invalid_username, invalid_order_data, invalid_order_random
-
-fake = Faker()
-
-def random_username():
-    return fake.user_name()
-
-def random_string(length = 10):
-    rand_str = ''.join(random.choices(string.ascii_letters + string.digits, k=length))
-    return rand_str
-
-def random_int(minimal = 1, maximum = 1000):
-    return randint(minimal, maximum)
-
-def random_float(minimal = 1.0, maximum = 1000.0):
-    return uniform(minimal, maximum)
+    random_invalid_username, invalid_order_data, invalid_order_random, invalid_pet_data, random_username, \
+    invalid_pet_random
 
 
+# TODO: collect data and move to test data
 class PetData:
     #null excluded for now
     #expect E500 for invalid data
-
-    invalid_name = [[], {}]
-    invalid_photo_urls = [[], {}]
-    invalid_id = [[], {}, random_string()]
-
-    category = [{"gender": fake.passport_gender(0)}] #dict is 200
-    invalid_category = [{random_string(): random_string()}, random_int(), random_float(), random_string(), [], {}] #dict is 200
-
-    invalid_category_id = [[], {}, random_string()]
-    invalid_category_name = [[], {}, random_int(), random_float()]
-
-    tags = [{"firstname": fake.name()}] #dict is 200
-    invalid_tags = [random_int(), random_float(), random_string(), [], {}]
-
-    invalid_tags_id = [[], {}, random_string()]
-    invalid_tags_name = [[], {}]
-
-    status = ["available", "pending", "sold"]
-    invalid_status = [random_string(), ""]
 
     form_name = []
     invalid_form_name = []
@@ -54,22 +18,6 @@ class PetData:
     form_data = []
     invalid_form_data = []
 
-def auto_generate_pets(pet_test_data):
-    auto_generated_pets = []
-
-    for test_data in pet_test_data:
-        auto_generated_pets.append(
-            Pet(
-                name=test_data.get("name"),
-                photoUrls=[test_data.get("photo_urls")],
-                pet_id = test_data.get("id"),
-                category=test_data.get("category"),
-                tags = [test_data.get("tags")],
-                status = test_data.get("status")
-            )
-        )
-
-    return auto_generated_pets
 
 def auto_generate_orders(order_test_data):
     auto_generated_orders = []
@@ -96,6 +44,50 @@ def generate_invalid_order(test_data):
         shipDate=random.choice(test_data.get("ship_date")),
         status=random.choice(test_data.get("status")),
         complete=random.choice(test_data.get("complete"))
+    )
+
+def auto_generate_pets(pet_test_data):
+    auto_generated_pets = []
+
+    for test_data in pet_test_data:
+        auto_generated_pets.append(
+            Pet(
+                name=test_data.get("name"),
+                photoUrls=test_data.get("photo_urls"),
+                pet_id = test_data.get("id"),
+                category=test_data.get("category"),
+                tags = test_data.get("tags"),
+                status = test_data.get("status")
+            )
+        )
+
+    return auto_generated_pets
+
+def generate_updated_pets(petId=None, pet_test_data=pet_data):
+    auto_generated_updated_pets = []
+
+    for test_data in pet_test_data:
+        auto_generated_updated_pets.append(
+            Pet(
+                name=test_data.get("name"),
+                photoUrls=test_data.get("photo_urls"),
+                pet_id = petId,
+                category=test_data.get("category"),
+                tags = test_data.get("tags"),
+                status = test_data.get("status")
+            )
+        )
+
+    return auto_generated_updated_pets
+
+def generate_invalid_pet(test_data):
+    return Pet(
+        name=random.choice(test_data.get("name")),
+        photoUrls=random.choice(test_data.get("photo_urls")),
+        pet_id=random.choice(test_data.get("id")),
+        category=random.choice(test_data.get("category")),
+        tags=random.choice(test_data.get("tags")),
+        status=random.choice(test_data.get("status"))
     )
 
 def auto_generate_users(user_test_data):
@@ -148,11 +140,15 @@ def generate_invalid_user(test_data):
         userStatus=random.choice(test_data.get("user_status")),
     )
 
-generated_pets = auto_generate_pets(pet_data)
-
 generated_orders = auto_generate_orders(order_data)
 generated_invalid_orders = auto_generate_orders(invalid_order_data)
 generated_invalid_order = generate_invalid_order(invalid_order_random)
+
+generated_pets = auto_generate_pets(pet_data)
+generated_invalid_pets = auto_generate_pets(invalid_pet_data)
+generated_updated_pets = generate_updated_pets(pet_test_data=pet_data)
+generated_updated_invalid_pets = generate_updated_pets(pet_test_data=invalid_pet_data)
+generated_invalid_pet = generate_invalid_pet(invalid_pet_random)
 
 generated_invalid_user = generate_invalid_user(invalid_user_random)
 generated_users = auto_generate_users(user_data)

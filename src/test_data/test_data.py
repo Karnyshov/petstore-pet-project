@@ -1,6 +1,6 @@
 import random
 from faker import Faker
-from random import randint, uniform, choices, choice
+from random import randint, uniform, choices
 import string
 
 fake = Faker()
@@ -20,6 +20,12 @@ def random_float(minimal = 1.0, maximum = 1000.0):
 
 def random_invalid_username():
     return random.choice([[], {}])
+
+def random_pet_status():
+    return random.choice(["available", "pending", "sold"])
+
+pet_status = ["available", "pending", "sold"]
+invalid_pet_status = [random_string(), ""]
 
 order_data = [
         #empty string sets id to random for id, sets id to 0 for pet_id, quantity
@@ -61,38 +67,101 @@ invalid_order_random = {
 }
 
 pet_data = [
-    {"name": "", "photo_urls": "", "id": random_int(),
+    {"name": "", "photo_urls": [random_string()], "id": random_int(),
      "category": {
-         "category_id": random_int(),
-         "category_name": random_int()
+         "id": random_int(),
+         "name": random_int()
      },
-     "tags": {
-         "tags_id": random_int(),
-         "tags_name": random_int()
-     },
+     "tags": [{
+         "id": random_int(),
+         "name": random_int()
+     }],
      "status": "available"
      },
-    {"name": fake.name(), "photo_urls": fake.url(), "id": random_float(),
+    {"name": fake.name(), "photo_urls": [fake.url()], "id": random_float(),
      "category": {
-         "category_id": random_float(),  # float is 200 and floored
-         "category_name": random_float()  # float is 200 and floored
+         "id": random_float(),  # float is 200 and floored
+         "name": random_float()  # float is 200 and floored
      },
-     "tags": {
-         "tags_id": random_float(),  # float is floored
-         "tags_name": random_float()  # float is floored
-     },
+     "tags": [{
+         "id": random_float(),  # float is floored
+         "name": random_float()  # float is floored
+     }],
      "status": "pending"},
     {"name": None, "photo_urls": None, "id": None,
      "category": {
-         "category_id": None,
-         "category_name": fake.name()
+         "id": None,
+         "name": fake.name()
+     },
+     "tags": [{
+         "id": None,
+         "name": fake.name()
+     }],
+     "status": "sold"},
+    {"name": None, "photo_urls": None, "id": None, "category": {random_string(): random_string()}, #dict is 200
+     "tags": [{random_string(): random_string()}], "status": "sold"} #dict is 200
+]
+
+invalid_pet_data = [
+    # null excluded for now
+    # expect E500 for invalid data
+    {"name": [], "photo_urls": [], "id": [], "category": [], "tags": [], "status": ""},
+    {"name": {}, "photo_urls": {}, "id": {}, "category": {}, "tags": {}, "status": random_string()},
+    {"name": fake.name(), "photo_urls": fake.url(), "id": random_string(), "category": random_int(),
+     "tags": random_int(), "status": random_pet_status()},
+    {"name": fake.name(), "photo_urls": fake.url(), "id": random_int(), "category": random_float(),
+     "tags": random_float(), "status": random_pet_status()},
+    {"name": fake.name(), "photo_urls": fake.url(), "id": random_int(), "category": random_string(),
+     "tags": random_string(), "status": random_pet_status()},
+    {"name": fake.name(), "photo_urls": fake.url(), "id": random_int(),
+     "category": {
+         "id": [],
+         "name": []
      },
      "tags": {
-         "tags_id": None,
-         "tags_name": fake.name()
+         "id": [],
+         "name": []
      },
-     "status": "sold"}
+     "status": random_pet_status()},
+    {"name": fake.name(), "photo_urls": fake.url(), "id": random_int(),
+     "category": {
+         "id": {},
+         "name": {}
+     },
+     "tags": {
+         "id": {},
+         "name": {}
+     },
+     "status": random_pet_status()},
+    {"name": fake.name(), "photo_urls": fake.url(), "id": random_int(),
+     "category": {
+         "id": random_string(),
+         "name": random_int()
+     },
+     "tags": {
+         "id": random_string(),
+         "name": fake.name()
+     },
+     "status": random_pet_status()}
 ]
+
+invalid_pet_random = {
+    # null excluded for now
+    # expect E500 for invalid data
+    # invalid_id = [[], {}, random_string()]
+    # invalid_category_id, invalid_tags_id = [[], {}, random_string()]
+    # invalid_category_name = [[], {}, random_int(), random_float()]
+    # invalid_tags_name, invalid_name, invalid_photo_urls = [[], {}]
+    # invalid_category, invalid_tags = [random_int(), random_float(), random_string(), [], {}]
+    # invalid_status = [random_string(), ""]
+
+    "name": [[], {}],
+    "photo_urls": [[], {}],
+    "id": [[], {}, random_string()],
+    "category": [random_int(), random_float(), random_string(), [], {}],
+    "tags": [random_int(), random_float(), random_string(), [], {}],
+    "status": [random_string(), ""]
+}
 
 user_data = [
         # float is floored for id, status

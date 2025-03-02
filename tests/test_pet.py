@@ -1,6 +1,7 @@
 import pytest
 from conftest import pet_service, valid_pet, create_valid_pet, parsed_pet
-from src.test_data.test_data_generation import PetData, generated_pets
+from src.test_data.test_data_generation import generated_pets, generated_invalid_pets
+from src.test_data.test_data import invalid_pet_status, pet_status
 
 class TestPet:
     def test_create_pet(self, pet_service, valid_pet):
@@ -12,13 +13,25 @@ class TestPet:
         response = pet_service.create_pet(pets.to_json())
         assert 200 == response.status_code
 
-    @pytest.mark.parametrize('status', PetData.status)
+    # TODO: finish
+    @pytest.mark.xfail
+    def test_create_invalid_pet(self, pet_service):
+        pass
+
+    @pytest.mark.parametrize("pets", generated_invalid_pets)
+    @pytest.mark.xfail
+    # returns 500 instead of 400
+    def test_create_param_invalid_pet(self, pet_service, pets):
+        response = pet_service.create_pet(pets.to_json())
+        assert 400 == response.status_code
+
+    @pytest.mark.parametrize('status', pet_status)
     def test_find_by_status_available(self, pet_service, status):
         response = pet_service.find_by_status(status)
         assert 200 == response.status_code
 
     # returns 200 and empty array instead of 400
-    @pytest.mark.parametrize('status', PetData.invalid_status)
+    @pytest.mark.parametrize('status', invalid_pet_status)
     @pytest.mark.xfail
     def test_find_by_invalid_status(self, pet_service, status):
         response = pet_service.find_by_status(status)
