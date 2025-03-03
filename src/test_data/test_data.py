@@ -26,6 +26,7 @@ def random_pet_status():
 
 pet_status = ["available", "pending", "sold"]
 invalid_pet_status = [random_string(), ""]
+invalid_pet_id = [[], {}, random_string()]
 
 order_data = [
         #empty string sets id to random for id, sets id to 0 for pet_id, quantity
