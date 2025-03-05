@@ -32,13 +32,10 @@ class PetService:
         return Pet.generate_pet_update_form_data()
 
     @staticmethod
-    def update_valid_pet(pet_to_update):
-        return Pet.update_pet(pet_to_update)
+    def update_valid_pet(created_pet, pet):
+        pet.pet_id = created_pet
+        return pet
 
     @staticmethod
-    def update_pet_invalid_id():
-        return Pet.update_pet_invalid_id()
-
-    @staticmethod
-    def update_pet_invalid_body(pet_to_update):
-        return Pet.update_pet_invalid_body(pet_to_update)
+    def update_single_pet(created_pet):
+        return Pet(pet_id=created_pet.pet_id)

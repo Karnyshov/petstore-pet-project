@@ -2,7 +2,6 @@ from src.core.baseAPI import BaseAPI
 from src.core.objects.user import User
 from requests.api import get, post, put, delete
 
-
 class UserService:
     user_url = f"{BaseAPI.base_url}user/"
     login_url = f"{user_url}login"
@@ -38,8 +37,14 @@ class UserService:
 
     @staticmethod
     def updating_user(created_user):
-        return User.update_user(created_user)
+        return User(username=created_user.username)
 
     @staticmethod
-    def invalid_update_user(created_user):
-        return User.invalid_update_user(created_user)
+    def updating_users(created_user, user):
+        user.username = created_user
+        return user
+
+    @staticmethod
+    def invalid_update_user(created_user, user):
+        user.username = created_user.username
+        return user
