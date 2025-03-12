@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Union
+from typing import Union
 from random import randint
 from faker import Faker
 import json
@@ -16,15 +16,6 @@ class Pet:
     category: Union[list, dict, int, str, float] = field(default_factory=lambda: {"id": randint(0, 10),
                       "gender": Faker().passport_gender(0)})
 
-
-    @staticmethod
-    def generate_pet_update_form_data():
-        form_data = {
-            "name": "Bobr",
-            "status": "sold"
-        }
-
-        return form_data
 
     def to_json(self) -> str:
         pet_json = {

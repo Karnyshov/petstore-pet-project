@@ -8,6 +8,9 @@ fake = Faker()
 def random_username():
     return fake.user_name()
 
+def random_name():
+    return fake.name()
+
 def random_string(length = 10):
     rand_str = ''.join(choices(string.ascii_letters + string.digits, k=length))
     return rand_str
@@ -162,6 +165,75 @@ invalid_pet_random = {
     "category": [random_int(), random_float(), random_string(), [], {}],
     "tags": [random_int(), random_float(), random_string(), [], {}],
     "status": [random_string(), ""]
+}
+
+pet_form_data = [
+    {"name": fake.name(),
+     "status": random_pet_status()
+    },
+    {"name": random_string(),
+     "status": random_pet_status()
+    },
+    {"name": random_int(),
+     "status": random_pet_status()
+    },
+    {"name": random_float(),
+     "status": random_pet_status()
+    },
+    {"name": [],
+     "status": random_pet_status()
+    },
+    {"name": {},
+     "status": random_pet_status()
+    },
+    {"name": fake.name(),
+     "status": random_string()
+    },
+    {"name": fake.name(),
+     "status": random_int()
+    },
+    {"name": fake.name(),
+     "status": random_float()
+    },
+    {"name": fake.name(),
+     "status": []
+    },
+    {"name": fake.name(),
+     "status": {}
+    }
+]
+
+# invalid data doesn't update the object
+invalid_pet_form_data = [
+    {
+        random_int(): fake.name(),
+        "status": random_pet_status()
+    },
+    {
+        random_float(): fake.name(),
+        "status": random_pet_status()
+    },
+    {
+        random_string(): fake.name(),
+        "status": random_pet_status()
+    },
+    {
+        "name": fake.name(),
+        random_int(): random_pet_status()
+    },
+    {
+        "name": fake.name(),
+        random_float(): random_pet_status()
+    },
+    {
+        "name": fake.name(),
+        random_string(): random_pet_status()
+    }
+]
+
+invalid_pet_form_data_random = {
+    "name" : [random_int(), random_float(), random_string()],
+    "status" : [random_int(), random_float(), random_string()]
 }
 
 user_data = [

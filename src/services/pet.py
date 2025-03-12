@@ -28,10 +28,6 @@ class PetService:
         return delete(url=self.pet_url + f"{pet_id}", headers=self.headers)
 
     @staticmethod
-    def form_data():
-        return Pet.generate_pet_update_form_data()
-
-    @staticmethod
     def update_valid_pet(created_pet, pet):
         pet.pet_id = created_pet
         return pet

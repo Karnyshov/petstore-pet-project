@@ -4,20 +4,7 @@ from core.objects.pet import Pet
 from src.core.objects.user import User
 from test_data.test_data import pet_data, order_data, user_data, invalid_user_random, invalid_user_data, \
     random_invalid_username, invalid_order_data, invalid_order_random, invalid_pet_data, random_username, \
-    invalid_pet_random
-
-
-# TODO: collect data and move to test data
-class PetData:
-    #null excluded for now
-    #expect E500 for invalid data
-
-    form_name = []
-    invalid_form_name = []
-
-    form_data = []
-    invalid_form_data = []
-
+    invalid_pet_random, random_string, random_float, random_int, random_name, random_pet_status, invalid_pet_form_data_random
 
 def auto_generate_orders(order_test_data):
     auto_generated_orders = []
@@ -90,6 +77,15 @@ def generate_invalid_pet(test_data):
         status=random.choice(test_data.get("status"))
     )
 
+def generate_form_data_pet():
+    return {"name": random_name(), "status": random_pet_status()}
+
+def generate_invalid_form_data_pet():
+    return {
+        random.choice(invalid_pet_form_data_random.get("name")): random_name(),
+        random.choice(invalid_pet_form_data_random.get("status")): random_pet_status()
+    }
+
 def auto_generate_users(user_test_data):
     auto_generated_users = []
 
@@ -149,6 +145,8 @@ generated_invalid_pets = auto_generate_pets(invalid_pet_data)
 generated_updated_pets = generate_updated_pets(pet_test_data=pet_data)
 generated_updated_invalid_pets = generate_updated_pets(pet_test_data=invalid_pet_data)
 generated_invalid_pet = generate_invalid_pet(invalid_pet_random)
+generated_pet_form_data = generate_form_data_pet()
+generated_invalid_pet_form_data = generate_invalid_form_data_pet()
 
 generated_invalid_user = generate_invalid_user(invalid_user_random)
 generated_users = auto_generate_users(user_data)
