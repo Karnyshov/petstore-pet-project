@@ -1,7 +1,7 @@
 import pytest
 from conftest import pet_service, valid_pet, create_valid_pet, parsed_pet, invalid_pet
-from src.test_data.test_data_generation import generated_pets, generated_invalid_pets, generated_updated_pets, generated_updated_invalid_pets
-from src.test_data.test_data import invalid_pet_status, pet_status
+from src.test_data.test_data_generation import generated_pets, generated_invalid_pets, generated_updated_pets, generated_updated_invalid_pets, generated_pet_form_data, generated_invalid_pet_form_data
+from src.test_data.test_data import invalid_pet_status, pet_status, pet_form_data, invalid_pet_form_data
 
 class TestPet:
     def test_create_pet(self, pet_service, valid_pet):
@@ -71,9 +71,25 @@ class TestPet:
         response = pet_service.update_pet(updated_pet.to_json())
         assert 400 == response.status_code
 
-    # TODO: add generation & parametrization
+    #random
     def test_update_pet_form(self, pet_service, create_valid_pet, valid_pet):
-        response = pet_service.update_pet_form(valid_pet.pet_id, pet_service.form_data())
+        response = pet_service.update_pet_form(valid_pet.pet_id, generated_pet_form_data)
+        assert 200 == response.status_code
+
+    #random, invalid data doesn't change the object
+    def test_update_invalid_pet_form(self, pet_service, create_valid_pet, valid_pet):
+        response = pet_service.update_pet_form(valid_pet.pet_id, generated_invalid_pet_form_data)
+        assert 200 == response.status_code
+
+    @pytest.mark.parametrize("form_data", pet_form_data)
+    def test_update_param_pet_form(self, pet_service, create_valid_pet, valid_pet, form_data):
+        response = pet_service.update_pet_form(valid_pet.pet_id, form_data)
+        assert 200 == response.status_code
+
+    #invalid data doesn't change the object
+    @pytest.mark.parametrize("form_data", invalid_pet_form_data)
+    def test_update_param_invalid_pet_form(self, pet_service, create_valid_pet, valid_pet, form_data):
+        response = pet_service.update_pet_form(valid_pet.pet_id, form_data)
         assert 200 == response.status_code
 
     def test_delete_pet(self, pet_service, parsed_pet):
