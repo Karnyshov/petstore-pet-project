@@ -1,13 +1,13 @@
 import pytest
-
 from src.services.store import StoreService
 from src.services.pet import PetService
 from src.services.user import UserService
 from src.core.objects.order import Order
 from src.core.objects.pet import Pet
 from src.core.objects.user import User
-from test_data.test_data_generation import generated_invalid_user, generated_invalid_order, generated_invalid_pet
-
+from test_data.test_data_user import generated_invalid_user
+from test_data.test_data_store import generated_invalid_order
+from test_data.test_data_pet import generated_invalid_pet
 
 @pytest.fixture(scope="function")
 def store_service():
