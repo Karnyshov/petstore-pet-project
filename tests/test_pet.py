@@ -1,7 +1,6 @@
 import pytest
 from conftest import pet_service, valid_pet, create_valid_pet, parsed_pet, invalid_pet
-from src.test_data.test_data_generation import generated_pets, generated_invalid_pets, generated_updated_pets, generated_updated_invalid_pets, generated_pet_form_data, generated_invalid_pet_form_data
-from src.test_data.test_data import invalid_pet_status, pet_status, pet_form_data, invalid_pet_form_data
+from src.test_data.test_data_pet import invalid_pet_status, pet_status, pet_form_data, invalid_pet_form_data, generated_pets, generated_invalid_pets, generated_updated_pets, generated_pet_form_data, generated_invalid_pet_form_data
 
 class TestPet:
     def test_create_pet(self, pet_service, valid_pet):
@@ -53,13 +52,13 @@ class TestPet:
     @pytest.mark.xfail
     # returns 500 instead of 400
     def test_update_invalid_pet(self, pet_service, create_valid_pet, valid_pet, invalid_pet):
-        updated_pet = pet_service.update_valid_pet(valid_pet.pet_id, invalid_pet)
+        updated_pet = pet_service.update_pets(valid_pet.pet_id, invalid_pet)
         response = pet_service.update_pet(updated_pet.to_json())
         assert 400 == response.status_code
 
     @pytest.mark.parametrize("pets", generated_updated_pets)
     def test_update_param_pet(self, pet_service, create_valid_pet, valid_pet, pets):
-        updated_pet = pet_service.update_valid_pet(valid_pet.pet_id, pets)
+        updated_pet = pet_service.update_pets(valid_pet.pet_id, pets)
         response = pet_service.update_pet(updated_pet.to_json())
         assert 200 == response.status_code
 
@@ -67,7 +66,7 @@ class TestPet:
     @pytest.mark.xfail
     # returns 500 instead of 400
     def test_update_param_invalid_pets(self, pet_service, create_valid_pet, valid_pet, pets):
-        updated_pet = pet_service.update_valid_pet(valid_pet.pet_id, pets)
+        updated_pet = pet_service.update_pets(valid_pet.pet_id, pets)
         response = pet_service.update_pet(updated_pet.to_json())
         assert 400 == response.status_code
 

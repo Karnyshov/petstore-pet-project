@@ -1,10 +1,22 @@
 import random
-from core.objects.order import Order
-from core.objects.pet import Pet
+from src.core.objects.order import Order
+from src.core.objects.pet import Pet
 from src.core.objects.user import User
-from test_data.test_data import pet_data, order_data, user_data, invalid_user_random, invalid_user_data, \
-    random_invalid_username, invalid_order_data, invalid_order_random, invalid_pet_data, random_username, \
-    invalid_pet_random, random_string, random_float, random_int, random_name, random_pet_status, invalid_pet_form_data_random
+from faker import Faker
+from random import randint, uniform, choices
+import string
+
+fake = Faker()
+
+def random_int(minimal = 1, maximum = 1000):
+    return randint(minimal, maximum)
+
+def random_float(minimal = 1.0, maximum = 1000.0):
+    return uniform(minimal, maximum)
+
+def random_string(length = 10):
+    rand_str = ''.join(choices(string.ascii_letters + string.digits, k=length))
+    return rand_str
 
 def auto_generate_orders(order_test_data):
     auto_generated_orders = []
@@ -50,7 +62,7 @@ def auto_generate_pets(pet_test_data):
 
     return auto_generated_pets
 
-def generate_updated_pets(petId=None, pet_test_data=pet_data):
+def generate_updated_pets(pet_test_data, petId=None):
     auto_generated_updated_pets = []
 
     for test_data in pet_test_data:
@@ -77,13 +89,13 @@ def generate_invalid_pet(test_data):
         status=random.choice(test_data.get("status"))
     )
 
-def generate_form_data_pet():
-    return {"name": random_name(), "status": random_pet_status()}
+def generate_form_data_pet(pet_status, name):
+    return {"name": name, "status": pet_status}
 
-def generate_invalid_form_data_pet():
+def generate_invalid_form_data_pet(invalid_form_data, pet_status, name):
     return {
-        random.choice(invalid_pet_form_data_random.get("name")): random_name(),
-        random.choice(invalid_pet_form_data_random.get("status")): random_pet_status()
+        random.choice(invalid_form_data.get("name")): name,
+        random.choice(invalid_form_data.get("status")): pet_status
     }
 
 def auto_generate_users(user_test_data):
@@ -105,7 +117,7 @@ def auto_generate_users(user_test_data):
 
     return auto_generated_users
 
-def auto_generate_updated_users(username=None, user_test_data=user_data):
+def auto_generate_updated_users(user_test_data, username=None):
     auto_generated_updated_users = []
 
     for test_data in user_test_data:
@@ -135,23 +147,3 @@ def generate_invalid_user(test_data):
         phone=random.choice(test_data.get("phone")),
         userStatus=random.choice(test_data.get("user_status")),
     )
-
-generated_orders = auto_generate_orders(order_data)
-generated_invalid_orders = auto_generate_orders(invalid_order_data)
-generated_invalid_order = generate_invalid_order(invalid_order_random)
-
-generated_pets = auto_generate_pets(pet_data)
-generated_invalid_pets = auto_generate_pets(invalid_pet_data)
-generated_updated_pets = generate_updated_pets(pet_test_data=pet_data)
-generated_updated_invalid_pets = generate_updated_pets(pet_test_data=invalid_pet_data)
-generated_invalid_pet = generate_invalid_pet(invalid_pet_random)
-generated_pet_form_data = generate_form_data_pet()
-generated_invalid_pet_form_data = generate_invalid_form_data_pet()
-
-generated_invalid_user = generate_invalid_user(invalid_user_random)
-generated_users = auto_generate_users(user_data)
-generated_invalid_users = auto_generate_users(invalid_user_data)
-generated_updated_users = auto_generate_updated_users(user_test_data=user_data)
-generated_updated_invalid_users = auto_generate_updated_users(user_test_data=invalid_user_data)
-generated_invalid_username = random_invalid_username()
-generated_username = random_username()
