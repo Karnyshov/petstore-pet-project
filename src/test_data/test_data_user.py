@@ -1,5 +1,5 @@
 import random
-from test_data.test_data_generation import generate_invalid_user, auto_generate_users, auto_generate_updated_users, fake, random_string, random_float, random_int
+from src.test_data.test_data_generation import generate_invalid_user, auto_generate_users, auto_generate_updated_users, fake, random_string, random_float, random_int
 
 def random_username():
     return fake.user_name()

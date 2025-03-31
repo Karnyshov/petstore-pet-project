@@ -1,5 +1,5 @@
 import random
-from test_data.test_data_generation import auto_generate_pets, generate_updated_pets, generate_invalid_pet, generate_form_data_pet, generate_invalid_form_data_pet, fake, random_string, random_float, random_int
+from src.test_data.test_data_generation import auto_generate_pets, generate_updated_pets, generate_invalid_pet, generate_form_data_pet, generate_invalid_form_data_pet, fake, random_string, random_float, random_int
 
 def random_pet_status():
     return random.choice(["available", "pending", "sold"])

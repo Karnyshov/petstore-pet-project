@@ -14,11 +14,12 @@ class StoreService:
         format="%(asctime)s %(levelname)s %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
         filename="store.log",
-        encoding="utf-8"
+        encoding="utf-8",
+        filemode="w",
     )
 
     def get_inventory(self):
-        logging.info(f"sending GET request to {self.inventory_url}")
+        logging.info("sending GET request to {self.inventory_url}")
         return get(url=self.inventory_url, headers=self.headers)
 
     def get_order(self, order_id):
