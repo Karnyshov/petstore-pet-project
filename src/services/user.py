@@ -1,6 +1,9 @@
+import json
+
 from src.core.baseAPI import BaseAPI
 from src.core.objects.user import User
 from requests.api import get, post, put, delete
+import logging
 
 class UserService:
     user_url = f"{BaseAPI.base_url}user/"
@@ -11,10 +14,20 @@ class UserService:
 
     headers = BaseAPI.headers
 
+    # TODO: Try filtering using separate Logger object (e.g. log.py)
+    @staticmethod
+    def filter_sensitive_data(request_data):
+        data = json.loads(request_data)
+        data["password"] = "***"
+        data["email"] = "***"
+        data["phone"] = "***"
+        return data
+
     def get_user(self, username):
         return get(url=self.user_url + f"{username}", headers=self.headers)
 
     def create_user(self, user):
+        logging.info(f"POST request to {self.user_url} with data: {self.filter_sensitive_data(user)}")
         return post(url=self.user_url, data=user, headers=self.headers)
 
     def update_user(self, username, user_updated):
