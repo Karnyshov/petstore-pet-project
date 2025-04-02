@@ -24,6 +24,7 @@ class UserService:
         return data
 
     def get_user(self, username):
+        logging.info(f"GET request to {self.user_url} with username: {username}")
         return get(url=self.user_url + f"{username}", headers=self.headers)
 
     def create_user(self, user):
@@ -31,33 +32,44 @@ class UserService:
         return post(url=self.user_url, data=user, headers=self.headers)
 
     def update_user(self, username, user_updated):
+        logging.info(f"PUT request to {self.user_url}{username} with data: {user_updated}")
         return put(url=self.user_url + f"{username}", data=user_updated, headers=self.headers)
 
     def delete_user(self, username):
+        logging.info(f"DELETE request to {self.user_url}{username}")
         return delete(url=self.user_url + f"{username}", headers=self.headers)
 
     def login_user(self, username, password):
+        logging.info(f"GET request to login: {self.login_url} with username: {username}")
         return get(url=self.login_url + f"?username={username}&password={password}", headers=self.headers)
 
     def logout_user(self):
+        logging.info(f"GET request to logout: {self.logout_url}")
         return get(url=self.logout_url, headers=self.headers)
 
+    #TODO: implement tests
     def create_user_with_list(self, user_list):
+        logging.info(f"POST creating users using list with URL: {self.user_url} and data: {user_list}")
         return post(url=self.user_url, data=user_list, headers=self.headers)
 
+    #TODO: implement tests
     def create_user_with_array(self, user_array):
+        logging.info(f"POST creating users using array with URL: {self.user_url} and data: {user_array}")
         return post(url=self.user_url, data=user_array, headers=self.headers)
 
     @staticmethod
     def updating_user(created_user):
+        logging.info(f"updating user: {created_user.username}")
         return User(username=created_user.username)
 
     @staticmethod
     def updating_users(created_user, user):
+        logging.info(f"valid case, updating user: {created_user} with data: {user}")
         user.username = created_user
         return user
 
     @staticmethod
     def invalid_update_user(created_user, user):
+        logging.info(f"invalid case, updating user: {created_user} with data: {user}")
         user.username = created_user.username
         return user

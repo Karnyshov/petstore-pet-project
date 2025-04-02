@@ -5,6 +5,7 @@ from src.core.objects.user import User
 from faker import Faker
 from random import randint, uniform, choices
 import string
+import logging
 
 fake = Faker()
 
@@ -19,6 +20,7 @@ def random_string(length = 10):
     return rand_str
 
 def auto_generate_orders(order_test_data):
+    logging.info("Generating list of Order test data")
     auto_generated_orders = []
 
     for test_data in order_test_data:
@@ -36,6 +38,7 @@ def auto_generate_orders(order_test_data):
     return auto_generated_orders
 
 def generate_invalid_order(test_data):
+    logging.info("Generating invalid Order test data")
     return Order(
         order_id=random.choice(test_data.get("id")),
         pet_id=random.choice(test_data.get("pet_id")),
@@ -46,6 +49,7 @@ def generate_invalid_order(test_data):
     )
 
 def auto_generate_pets(pet_test_data):
+    logging.info("Generating list of Pet test data")
     auto_generated_pets = []
 
     for test_data in pet_test_data:
@@ -63,6 +67,7 @@ def auto_generate_pets(pet_test_data):
     return auto_generated_pets
 
 def generate_updated_pets(pet_test_data, petId=None):
+    logging.info("Generating list of updated Pet test data")
     auto_generated_updated_pets = []
 
     for test_data in pet_test_data:
@@ -80,6 +85,7 @@ def generate_updated_pets(pet_test_data, petId=None):
     return auto_generated_updated_pets
 
 def generate_invalid_pet(test_data):
+    logging.info("Generating invalid Pet test data")
     return Pet(
         name=random.choice(test_data.get("name")),
         photoUrls=random.choice(test_data.get("photo_urls")),
@@ -90,15 +96,18 @@ def generate_invalid_pet(test_data):
     )
 
 def generate_form_data_pet(pet_status, name):
+    logging.info(f"Generating valid random data for form-data request: {name}, {pet_status}")
     return {"name": name, "status": pet_status}
 
 def generate_invalid_form_data_pet(invalid_form_data, pet_status, name):
+    logging.info(f"Generating invalid random data for form-data request: {name}, {pet_status}")
     return {
         random.choice(invalid_form_data.get("name")): name,
         random.choice(invalid_form_data.get("status")): pet_status
     }
 
 def auto_generate_users(user_test_data):
+    logging.info("Generating list of User test data")
     auto_generated_users = []
 
     for test_data in user_test_data:
@@ -118,6 +127,7 @@ def auto_generate_users(user_test_data):
     return auto_generated_users
 
 def auto_generate_updated_users(user_test_data, username=None):
+    logging.info("Generating list of updated User test data")
     auto_generated_updated_users = []
 
     for test_data in user_test_data:
@@ -137,6 +147,7 @@ def auto_generate_updated_users(user_test_data, username=None):
     return auto_generated_updated_users
 
 def generate_invalid_user(test_data):
+    logging.info("Generating invalid User test data")
     return User(
         user_id=random.choice(test_data.get("id")),
         username=random.choice(test_data.get("username")),
