@@ -23,3 +23,6 @@ jobs:
           run: | 
               pip install -r requirements.txt
               echo "Installed!"
+    Execute:
+      needs: Prepare
+      run: echo "New dependent job!"
