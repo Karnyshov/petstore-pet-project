@@ -25,5 +25,7 @@ jobs:
               echo "Installed!"
     Testing:
       needs: Prepare
+      name: Test execution
+      runs-on: ubuntu-latest
       steps:
         - run: echo "New dependent job!"
