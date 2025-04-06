@@ -1,4 +1,4 @@
-from test_data.test_data_generation import auto_generate_orders, generate_invalid_order, fake, random_string, random_float, random_int
+from src.test_data.test_data_generation import auto_generate_orders, generate_invalid_order, fake, random_string, random_float, random_int
 
 order_data = [
         #empty string sets id to random for id, sets id to 0 for pet_id, quantity

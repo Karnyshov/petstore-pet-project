@@ -1,6 +1,9 @@
 import pytest
 from conftest import user_service, create_valid_user, valid_user, invalid_user
-from test_data.test_data_user import random_username, generated_users, generated_updated_users, generated_invalid_users, generated_updated_invalid_users, generated_invalid_username, generated_username
+from src.test_data.test_data_generation import auto_generate_users
+from src.test_data.test_data_user import random_username, generated_users, generated_updated_users, \
+    generated_invalid_users, generated_updated_invalid_users, generated_invalid_username, generated_username, user_data
+
 
 class TestUser:
     def test_create_user(self, user_service, valid_user):
