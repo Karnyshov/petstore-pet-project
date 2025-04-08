@@ -24,6 +24,6 @@ jobs:
               pip install -r requirements.txt
               cd tests
         - name: Checking test collection
-          run:  pytest -s —collect-only
+          run:  pytest -s --collect-only
         - name: Running tests
           run: pytest test_user.py::TestUser --no-header --no-summary -q
