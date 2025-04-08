@@ -26,4 +26,4 @@ jobs:
               pwd
               ls
         - name: Running pytest
-          run: pytest tests/test_user.py::TestUser::test_create_user --no-header --no-summary -q
+          run: pytest tests/test_user.py::TestUser --no-header --no-summary -q
