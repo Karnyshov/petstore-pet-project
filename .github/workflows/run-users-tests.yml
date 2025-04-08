@@ -26,4 +26,4 @@ jobs:
         - name: Checking test collection
           run:  pytest -s --collect-only
         - name: Running tests
-          run: pytest test_user.py::TestUser --no-header --no-summary -q
+          run: pytest tests/test_user.py::TestUser --no-header --no-summary -q
