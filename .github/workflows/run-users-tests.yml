@@ -23,5 +23,7 @@ jobs:
           run: | 
               pip install -r requirements.txt
               echo "Installed!"
+              pwd
+              ls
         - name: Running pytest
           run: pytest test_user.py::TestUser::test_create_user --no-header --no-summary -q
