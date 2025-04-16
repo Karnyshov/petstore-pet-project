@@ -32,5 +32,5 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: test_logs
-            path: /test_logs.log
+            path: ./test_logs.log
             retention-days: 5
