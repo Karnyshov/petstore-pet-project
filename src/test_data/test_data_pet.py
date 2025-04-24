@@ -40,7 +40,9 @@ pet_data = [
          "name": fake.name()
      }],
      "status": "sold"},
-    {"name": fake.name(), "photo_urls": fake.url(), "id": random_int(), "category": {random_string(): random_string()}, "tags": [{random_string(): random_string()}], "status": "sold"} #dict is 200
+    # FAIL using automation
+    # Dict is 200
+    # {"name": fake.name(), "photo_urls": fake.url(), "id": random_int(), "category": {random_string(): random_string()}, "tags": [{random_string(): random_string()}], "status": "sold"}
 ]
 
 invalid_pet_data = [
