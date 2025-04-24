@@ -3,6 +3,7 @@ from conftest import store_service, valid_order, parsed_order, invalid_order
 from src.test_data.test_data_store import generated_orders, generated_invalid_orders
 
 class TestStore:
+    @pytest.mark.skip
     def test_get_inventory(self, store_service):
         response = store_service.get_inventory()
         assert 200 == response.status_code

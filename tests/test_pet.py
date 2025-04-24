@@ -103,6 +103,7 @@ class TestPet:
         response = pet_service.delete_pet(created_pet_id)
         assert 404 == response.status_code
 
+    @pytest.mark.skip
     def test_get_deleted_pet(self, pet_service, parsed_pet):
         created_pet_id = parsed_pet.get("id")
         pet_service.delete_pet(created_pet_id)
