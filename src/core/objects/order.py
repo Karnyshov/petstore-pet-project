@@ -6,7 +6,7 @@ import json
 #TODO: add fake ship date
 @dataclass
 class Order:
-    order_id: Union[int, Any] = randint(1, 5)
+    order_id: Union[int, Any] = randint(1, 1000)
     pet_id: Union[int, Any] = randint(5, 10)
     quantity: Union[int, Any] = randint(10, 15)
     shipDate: str = "2024-12-02T11:22:47.641Z"
