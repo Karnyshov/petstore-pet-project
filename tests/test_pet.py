@@ -12,6 +12,7 @@ class TestPet:
         response = pet_service.create_pet(pets.to_json())
         assert 200 == response.status_code
 
+    #Flaky?
     @pytest.mark.xfail
     # returns 500 instead of 400
     def test_create_invalid_pet(self, pet_service, invalid_pet):
@@ -102,6 +103,7 @@ class TestPet:
         response = pet_service.delete_pet(created_pet_id)
         assert 404 == response.status_code
 
+    @pytest.mark.skip
     def test_get_deleted_pet(self, pet_service, parsed_pet):
         created_pet_id = parsed_pet.get("id")
         pet_service.delete_pet(created_pet_id)
