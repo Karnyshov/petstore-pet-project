@@ -1,4 +1,5 @@
 import pytest
+from pytest_check import check_functions as cf
 from conftest import store_service, valid_order, parsed_order, invalid_order
 from src.test_data.test_data_store import generated_orders, generated_invalid_orders
 
@@ -12,6 +13,13 @@ class TestStore:
     def test_create_order(self, store_service, valid_order):
         response = store_service.create_order(valid_order.to_json())
         assert 200 == response.status_code
+        parsed_response = response.json()
+        cf.equal(valid_order.order_id, parsed_response.get("id"))
+        cf.equal(valid_order.pet_id, parsed_response.get("petId"))
+        cf.equal(valid_order.quantity, parsed_response.get("quantity"))
+        cf.equal(valid_order.shipDate, parsed_response.get("shipDate"))
+        cf.not_equal(valid_order.status, parsed_response.get("status"))
+        cf.equal(valid_order.complete, parsed_response.get("complete"))
 
     @pytest.mark.parametrize("order", generated_orders)
     def test_create_param_order(self, store_service, order):

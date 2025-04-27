@@ -7,7 +7,6 @@ from faker import Faker
 from random import randint, uniform, choices
 import string
 
-
 fake = Faker()
 
 logger = logging.getLogger(__name__)
