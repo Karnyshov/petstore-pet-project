@@ -60,9 +60,11 @@ class UserService:
         return post(url=self.user_url, data=user_array, headers=self.headers)
 
     @staticmethod
-    def updating_user(created_user):
-        logger.info(f"updating user: {created_user.username}")
-        return User(username=created_user.username)
+    def updating_user(created_username):
+        logger.info(f"updating user: {created_username}")
+        new_user = User()
+        new_user.username = created_username
+        return new_user
 
     @staticmethod
     def updating_users(created_user, user):
