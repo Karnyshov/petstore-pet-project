@@ -2,3 +2,5 @@ pytest==8.3.4
 requests==2.32.0
 faker==35.2.0
 pytest-check==2.5.3
+allure-pytest==2.14.2
+allure-python-commons~=2.14.2

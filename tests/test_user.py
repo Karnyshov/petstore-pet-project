@@ -1,3 +1,4 @@
+import allure
 import pytest
 from conftest import user_service, create_valid_user, valid_user, invalid_user
 from pytest_check import check_functions as cf
@@ -6,6 +7,7 @@ from src.test_data.test_data_user import random_username, generated_users, gener
 
 
 class TestUser:
+    @allure.title("Create random user")
     def test_create_user(self, user_service, valid_user):
         response = user_service.create_user(valid_user.to_json())
         assert 200 == response.status_code
