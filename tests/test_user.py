@@ -7,7 +7,7 @@ from src.test_data.test_data_user import random_username, generated_users, gener
 
 
 class TestUser:
-    @allure.title("Create random user")
+    @allure.title("Creating random user")
     def test_create_user(self, user_service, valid_user):
         response = user_service.create_user(valid_user.to_json())
         assert 200 == response.status_code
@@ -24,7 +24,9 @@ class TestUser:
         cf.equal(valid_user.userStatus, parsed_created_user_response.get("userStatus"))
 
     @pytest.mark.parametrize("user", generated_users)
+    @allure.title("Creating multiple users")
     def test_create_param_user(self, user_service, user):
+        allure.dynamic.parameter("user", generated_users)
         response = user_service.create_user(user.to_json())
         assert 200 == response.status_code
         parsed_created_user_response = response.json()
@@ -38,6 +40,7 @@ class TestUser:
         cf.equal(user.userStatus, parsed_created_user_response.get("userStatus"))
 
     @pytest.mark.xfail
+    @allure.title("Creating user with random invalid data")
     # returns 500 instead of 400
     def test_create_invalid_user(self, user_service, invalid_user):
         response = user_service.create_user(invalid_user.to_json())
@@ -45,12 +48,15 @@ class TestUser:
 
     @pytest.mark.xfail
     @pytest.mark.parametrize("user", generated_invalid_users)
+    @allure.title("Creating user with invalid data")
     # returns 500 instead of 400
     def test_create_param_invalid_user(self, user_service, user):
+        allure.dynamic.parameter("user", generated_invalid_users)
         response = user_service.create_user(user.to_json())
         assert 400 == response.status_code
 
     # TODO: Fix
+    @allure.title("Updating user with random data")
     def test_update_user(self, user_service, create_valid_user, valid_user):
         parsed_created_user_response = user_service.get_user(valid_user.username).json()
         updated_user = user_service.updating_user(valid_user.username)
@@ -70,13 +76,16 @@ class TestUser:
 
     # TODO: add more assertions
     @pytest.mark.parametrize("users", generated_updated_users)
+    @allure.title("Updating user with test data")
     def test_update_param_user(self, user_service, create_valid_user, valid_user, users):
+        allure.dynamic.parameter("users", generated_updated_users)
         updated_users = user_service.updating_users(valid_user.username, users)
         response = user_service.update_user(valid_user.username, updated_users.to_json())
         assert 200 == response.status_code
         parsed_response = response.json()
 
     @pytest.mark.xfail
+    @allure.title("Updating user with invalid random data")
     # return 500 instead of 400
     def test_update_invalid_user(self, user_service, create_valid_user, valid_user, invalid_user):
         updated_user = user_service.invalid_update_user(valid_user, invalid_user)
@@ -85,33 +94,40 @@ class TestUser:
 
     @pytest.mark.xfail
     @pytest.mark.parametrize("users", generated_updated_invalid_users)
+    @allure.title("Updating user with invalid test data")
     # return 500 instead of 400
     def test_update_param_invalid_user(self, user_service, create_valid_user, valid_user, users):
+        allure.dynamic.parameter("users", generated_updated_invalid_users)
         updated_users = user_service.updating_users(valid_user.username, users)
         response = user_service.update_user(valid_user.username, updated_users.to_json())
         assert 400 == response.status_code
 
     @pytest.mark.xfail
     # return 200 instead of 404
+    @allure.title("Updating user that doesn't exist")
     def test_update_absent_user(self, user_service, valid_user):
         response = user_service.update_user(random_username(), valid_user.to_json())
         assert 404 == response.status_code
 
+    @allure.title("Getting user by username")
     def test_get_user_by_username(self, user_service, create_valid_user, valid_user):
         response = user_service.get_user(valid_user.username)
         assert 200 == response.status_code
 
     @pytest.mark.xfail
+    @allure.title("Getting user by invalid username")
     # return 404 instead of 400
     def test_get_user_invalid_username(self, user_service):
         response = user_service.get_user(generated_invalid_username)
         assert 400 == response.status_code
 
+    @allure.title("Getting user that doesn't exist")
     # Flaky. May return 200 instead of 404. Duplicates test_get_deleted_user
     def test_get_absent_user(self, user_service):
         response = user_service.get_user(generated_username)
         assert 404 == response.status_code
 
+    @allure.title("Deleting user")
     def test_delete_user(self, user_service, create_valid_user, valid_user):
         response = user_service.delete_user(valid_user.username)
         assert 200 == response.status_code
@@ -119,6 +135,7 @@ class TestUser:
         assert parsed_response.get("message") == valid_user.username
 
     @pytest.mark.xfail
+    @allure.title("Getting user that was deleted")
     # Flaky. May return 200 instead of 404
     def test_get_deleted_user(self, user_service, create_valid_user, valid_user):
         user_service.delete_user(valid_user.username)
@@ -126,6 +143,7 @@ class TestUser:
         assert 404 == response.status_code
 
     @pytest.mark.xfail
+    @allure.title("Deleting user that was deleted")
     # Flaky. May return 200 instead of 404
     def test_delete_deleted_user(self, user_service, create_valid_user, valid_user):
         user_service.delete_user(valid_user.username)

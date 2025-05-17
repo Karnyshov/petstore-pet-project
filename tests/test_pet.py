@@ -1,4 +1,5 @@
 import pytest
+import allure
 from conftest import pet_service, valid_pet, create_valid_pet, parsed_pet, invalid_pet
 from pytest_check import check_functions as cf
 from src.test_data.test_data_pet import invalid_pet_status, pet_status, pet_form_data, invalid_pet_form_data, generated_pets, generated_invalid_pets, generated_updated_pets, generated_pet_form_data, generated_invalid_pet_form_data

@@ -1,14 +1,17 @@
 import pytest
+import allure
 from pytest_check import check_functions as cf
 from conftest import store_service, valid_order, parsed_order, invalid_order
 from src.test_data.test_data_store import generated_orders, generated_invalid_orders, random_string
 
 class TestStore:
+    @allure.title("Getting whole inventory")
     def test_get_inventory(self, store_service):
         response = store_service.get_inventory()
         assert 200 == response.status_code
         assert {} != response.json()
 
+    @allure.title("Creating order with random data")
     def test_create_order(self, store_service, valid_order):
         response = store_service.create_order(valid_order.to_json())
         assert 200 == response.status_code
@@ -22,6 +25,7 @@ class TestStore:
 
     @pytest.mark.parametrize("order", generated_orders)
     def test_create_param_order(self, store_service, order):
+        allure.dynamic.parameter("order", generated_orders)
         response = store_service.create_order(order.to_json())
         assert 200 == response.status_code
         parsed_response = response.json()
@@ -32,8 +36,9 @@ class TestStore:
         cf.equal(order.status, parsed_response.get("status"))
         cf.equal(order.complete, parsed_response.get("complete"))
 
-    # returns 500 instead of 400
     @pytest.mark.xfail
+    @allure.title("Creating order with invalid random data")
+    # returns 500 instead of 400
     def test_create_invalid_order(self, store_service, invalid_order):
         response = store_service.create_order(invalid_order.to_json())
         assert 400 == response.status_code
@@ -42,43 +47,50 @@ class TestStore:
     @pytest.mark.parametrize("order", generated_invalid_orders)
     @pytest.mark.xfail
     def test_create_param_invalid_order(self, store_service, order):
+        allure.dynamic.parameter("order", generated_invalid_orders)
         response = store_service.create_order(order.to_json())
         assert 400 == response.status_code
 
+    @allure.title("Getting order by ID")
     def test_get_order_by_id(self, store_service, parsed_order):
         parsed_order_id = parsed_order.get("id")
         response = store_service.get_order(parsed_order_id)
         assert 200 == response.status_code
         assert parsed_order_id == response.json().get("id")
 
-    # return 404 instead of 400
     @pytest.mark.xfail
+    @allure.title("Getting order by invalid ID")
+    # return 404 instead of 400
     def test_get_order_by_invalid_id(self, store_service):
         response = store_service.get_order(random_string)
         assert 400 == response.status_code
 
-    # Flaky. Duplicates test_get_deleted_order
     @pytest.mark.xfail
+    @allure.title("Getting order that doesn't exist")
+    # Flaky. Duplicates test_get_deleted_order
     def test_get_absent_order(self, store_service):
         response = store_service.get_order(0)
         assert 404 == response.status_code
 
+    @allure.title("Deleting order")
     def test_delete_order(self, store_service, valid_order, create_valid_order):
         response = store_service.delete_order(valid_order.order_id)
         assert 200 == response.status_code
         parsed_response = response.json()
         assert parsed_response.get("message") == str(valid_order.order_id)
 
-    # Flaky
     @pytest.mark.xfail
+    @allure.title("Deleting deleted order")
+    # Flaky
     def test_delete_deleted_order(self, store_service, parsed_order):
         created_order_id = parsed_order.get("id")
         store_service.delete_order(created_order_id)
         response = store_service.delete_order(created_order_id)
         assert 404 == response.status_code
 
-    # Flaky
     @pytest.mark.xfail
+    @allure.title("Getting deleted order")
+    # Flaky
     def test_get_deleted_order(self, store_service, parsed_order):
         created_order_id = parsed_order.get("id")
         store_service.delete_order(created_order_id)
