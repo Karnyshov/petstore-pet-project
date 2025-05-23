@@ -34,7 +34,7 @@ jobs:
 
         - name: Running tests
           continue-on-error: true
-          run: pytest tests/test_user.py::TestUser::test_create_user  --no-header --no-summary -q --alluredir ../allure-results
+          run: pytest tests/test_user.py::TestUser::test_create_user  --no-header --no-summary -q --alluredir ./allure-results
 
         - name: Store log file
           uses: actions/upload-artifact@v4
@@ -57,7 +57,7 @@ jobs:
           with:
             gh_pages: gha_pages_history
             allure_history: allure-history
-            allure_results: ../allure-results
+            allure_results: ./allure-results
 
         - name: Publish test report
           uses: peaceiris/actions-gh-pages@v3
