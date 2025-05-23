@@ -34,7 +34,7 @@ jobs:
 
         - name: Running tests
           continue-on-error: true
-          run: pytest tests/test_user.py::TestUser --no-header --no-summary -q
+          run: pytest test_user.py::TestUser::test_create_user  --no-header --no-summary -q --alluredir ../allure-results
 
         - name: Store log file
           uses: actions/upload-artifact@v4
@@ -48,14 +48,14 @@ jobs:
           if: always()
           continue-on-error: true
           with:
-            ref: allure_reporting
-            path: allure_reporting
+            ref: gha_pages
+            path: gha_pages
 
         - name: Build test report
           uses: simple-elf/allure-report-action@v1.7
           if: always()
           with:
-            allure_reporting: allure_reporting
+            gha_pages: gha_pages
             allure_history: allure-history
             allure_results: build/allure-results
 
@@ -64,5 +64,5 @@ jobs:
           if: always()
           with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_branch: allure_reporting
+            publish_branch: gha_pages
             publish_dir: allure-history
