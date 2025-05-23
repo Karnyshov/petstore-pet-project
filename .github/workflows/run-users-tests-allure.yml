@@ -49,13 +49,13 @@ jobs:
           continue-on-error: true
           with:
             ref: gha_pages
-            path: gha_pages
+            path: gha_pages_history
 
         - name: Build test report
           uses: simple-elf/allure-report-action@v1.7
           if: always()
           with:
-            gha_pages: gha_pages
+            gha_pages_history: gha_pages_history
             allure_history: allure-history
             allure_results: build/allure-results
 
