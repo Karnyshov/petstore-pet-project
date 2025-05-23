@@ -1,0 +1,2 @@
+INFO     global_logger:user.py:33 POST request to https://petstore.swagger.io/v2/user/ with data: {'id': 3, 'username': 'kimberly54', 'firstName': 'Shannon', 'lastName': 'King', 'email': '***', 'password': '***', 'phone': '***', 'userStatus': 0}
+INFO     global_logger:user.py:29 GET request to https://petstore.swagger.io/v2/user/ with username: kimberly54
