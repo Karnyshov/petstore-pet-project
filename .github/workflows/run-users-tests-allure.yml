@@ -1,0 +1,68 @@
+name: User Tests
+run-name: Executing all tests for Users service
+# Demo job
+on: [push]
+jobs:
+    Setup:
+      name: setup
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+
+        - name: Python setup
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.9'
+            cache: pip
+            # Optional - x64 or x86 architecture, defaults to x64
+            architecture: 'x64'
+            # You can test your matrix by printing the current Python version
+
+        - name: Display Python version
+          run: python -c "import sys; print(sys.version)"
+
+        - name: Install dependencies
+          run: python -m pip install --upgrade pip setuptools wheel
+
+        - name: Installing requirements
+          run: | 
+              pip install -r requirements.txt
+              cd tests
+
+        - name: Checking test collection
+          run:  pytest -s --collect-only
+
+        - name: Running tests
+          continue-on-error: true
+          run: pytest tests/test_user.py::TestUser --no-header --no-summary -q
+
+        - name: Store log file
+          uses: actions/upload-artifact@v4
+          with:
+            name: test_logs
+            path: ./test_logs.log
+            retention-days: 5
+
+        - name: Load test report history
+          uses: actions/checkout@v3
+          if: always()
+          continue-on-error: true
+          with:
+            ref: allure_reporting
+            path: allure_reporting
+
+        - name: Build test report
+          uses: simple-elf/allure-report-action@v1.7
+          if: always()
+          with:
+            allure_reporting: allure_reporting
+            allure_history: allure-history
+            allure_results: build/allure-results
+
+        - name: Publish test report
+          uses: peaceiris/actions-gh-pages@v3
+          if: always()
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_branch: allure_reporting
+            publish_dir: allure-history
