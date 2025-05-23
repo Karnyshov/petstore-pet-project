@@ -1,2 +1,2 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"failed","Fri May 23 13:53:23 GMT 2025","Fri May 23 13:53:23 GMT 2025","200","tests","test_user","TestUser","","","Creating random user",""
+"passed","Fri May 23 13:56:48 GMT 2025","Fri May 23 13:56:49 GMT 2025","676","tests","test_user","TestUser","","","Creating random user",""
