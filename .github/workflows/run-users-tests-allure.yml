@@ -55,7 +55,7 @@ jobs:
           uses: simple-elf/allure-report-action@v1.7
           if: always()
           with:
-            gha_pages_history: gha_pages_history
+            gh_pages: gha_pages_history
             allure_history: allure-history
             allure_results: build/allure-results
 
