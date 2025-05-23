@@ -29,6 +29,13 @@ jobs:
               pip install -r requirements.txt
               cd tests
 
+        - name: Creating dirs
+          run: |
+              mkdir history_pages
+              mkdir allure-history
+              ls
+              pwd
+
         - name: Checking test collection
           run:  pytest -s --collect-only
 
@@ -55,7 +62,7 @@ jobs:
           uses: simple-elf/allure-report-action@v1.7
           if: always()
           with:
-            gh_pages: gha_pages_history
+            gh_pages: history_pages
             allure_history: allure-history
             allure_results: ./allure-results
 
