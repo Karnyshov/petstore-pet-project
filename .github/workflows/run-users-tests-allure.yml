@@ -33,8 +33,6 @@ jobs:
           run: |
               mkdir history_pages
               mkdir allure-history
-              ls
-              pwd
 
         - name: Checking test collection
           run:  pytest -s --collect-only
